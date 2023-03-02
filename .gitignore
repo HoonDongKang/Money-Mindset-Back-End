@@ -1,8 +1,13 @@
 # compiled output
 /dist
 /node_modules
-.dev.env
-.test.env
+.env.dev
+.env.Tests
+
+# prisma
+/prisma/migrations
+/prisma/migrations/migration_lock.toml
+
 # Logs
 logs
 *.log
