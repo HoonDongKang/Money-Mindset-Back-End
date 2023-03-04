@@ -6,6 +6,8 @@
 
 # Migrations
 /prisma/migrations
+/prisma/dev.db
+
 # Logs
 logs
 *.log
