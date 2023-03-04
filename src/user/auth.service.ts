@@ -24,9 +24,10 @@ export class AuthService {
 
   async signup(createUserDto: CreateUserDto) {
     const { email, id, nickname, password } = createUserDto;
-    try{
+    try {
       await this.emailVerify(email);
-    } catch(e){
-      console.error(e)
+    } catch (e) {
+      console.error(e);
     }
+  }
 }

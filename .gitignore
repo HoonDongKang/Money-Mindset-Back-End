@@ -1,8 +1,11 @@
 # compiled output
 /dist
 /node_modules
-.dev.env
-.test.env
+.env.dev
+.env.test
+
+# Migrations
+/prisma/migrations
 # Logs
 logs
 *.log
