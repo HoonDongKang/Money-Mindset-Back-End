@@ -5,23 +5,29 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-users.dto';
+import { UpdateUserDto } from './dto/update-users.dto';
 import { UserService } from './user.service';
 
 @Controller('user')
 @ApiTags('user')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private authService: AuthService,
+  ) {}
 
   @Get()
-  findAll() {
+  findAllUser() {
     return this.userService.findAll();
   }
   @Get(':idx')
-  findOne(@Param('idx') idx: string) {
+  findOneUser(@Param('idx') idx: string) {
     return this.userService.findOne(parseInt(idx));
   }
 
@@ -30,9 +36,13 @@ export class UserController {
     return this.userService.removeUser(parseInt(idx));
   }
 
-  // @Post('/signup')
-  // createUser(@Body() body: CreateUserDto) {
-  //   const { email, id, nickname, password } = body;
-  //   return this.userService.signup();
-  // }
+  @Patch(':idx')
+  updateUser(@Param('idx') idx: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.updateUser(parseInt(idx), updateUserDto);
+  }
+
+  @Post('/signup')
+  createUser(@Body() createUserDto: CreateUserDto) {
+    return this.authService.signup(createUserDto);
+  }
 }
