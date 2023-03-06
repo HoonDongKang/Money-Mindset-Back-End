@@ -8,9 +8,6 @@
 /prisma/migrations
 /prisma/dev.db
 
-# md
-todo.md
-
 # Logs
 logs
 *.log
