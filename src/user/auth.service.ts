@@ -1,8 +1,9 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-users.dto';
 import { UserService } from './user.service';
 import * as bcyrpt from 'bcrypt';
+import { LoginDto } from './dto/login-users.dto';
 
 @Injectable()
 export class AuthService {
@@ -29,5 +30,18 @@ export class AuthService {
     });
 
     return user;
+  }
+
+  async signin(logindto: LoginDto) {
+    const { id, password } = logindto;
+    const user = await this.prisma.user.findUnique({ where: { id } });
+    if (!user) {
+      throw new BadRequestException('Invalid ID');
+    }
+    const IsEqual = await bcyrpt.compare(password, user.password);
+    if (!IsEqual) {
+      throw new BadRequestException('Invalid PW');
+    }
+    return { IsEqual };
   }
 }

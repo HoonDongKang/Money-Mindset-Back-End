@@ -7,12 +7,12 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-users.dto';
 import { UpdateUserDto } from './dto/update-users.dto';
 import { UserService } from './user.service';
-import { IsEmail } from 'class-validator';
+import { LoginDto } from './dto/login-users.dto';
 
 @Controller('user')
 @ApiTags('user')
@@ -71,5 +71,13 @@ export class UserController {
   @Post('/signup')
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.authService.signup(createUserDto);
+  }
+
+  @ApiOperation({
+    summary: `Signin API`,
+  })
+  @Post('/signin')
+  signin(@Body() loginDto: LoginDto) {
+    return this.authService.signin(loginDto);
   }
 }
