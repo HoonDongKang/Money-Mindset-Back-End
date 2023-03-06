@@ -45,4 +45,8 @@ export class UserController {
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.authService.signup(createUserDto);
   }
+  @Post('/test')
+  hello(@Body() createUserDto: CreateUserDto) {
+    return this.authService.test(createUserDto);
+  }
 }
