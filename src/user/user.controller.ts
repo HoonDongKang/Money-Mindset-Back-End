@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -36,8 +37,8 @@ export class UserController {
 
   @ApiOperation({ summary: `Delete user's info` })
   @Delete('/:idx')
-  removeUser(@Param('idx') idx: string) {
-    return this.userService.removeUser(parseInt(idx));
+  removeUser(@Param('idx', ParseIntPipe) idx: number) {
+    return this.userService.removeUser(idx);
   }
 
   @ApiOperation({
