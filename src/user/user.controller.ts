@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
@@ -14,9 +15,12 @@ import { CreateUserDto } from './dto/create-users.dto';
 import { UpdateUserDto } from './dto/update-users.dto';
 import { UserService } from './user.service';
 import { LoginDto } from './dto/login-users.dto';
+import { Serialize } from './../interceptors/serialize.interceptor';
+import { UserDto } from './dto/user.dto';
 
 @Controller('user')
 @ApiTags('user')
+@Serialize(UserDto)
 export class UserController {
   constructor(
     private userService: UserService,
