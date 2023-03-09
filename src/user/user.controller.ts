@@ -31,8 +31,8 @@ export class UserController {
 
   @ApiOperation({ summary: `Get user's info` })
   @Get(':idx')
-  findOneUser(@Param('idx') idx: string) {
-    return this.userService.findOne(parseInt(idx));
+  findOneUser(@Param('idx', ParseIntPipe) idx: number) {
+    return this.userService.findOne(idx);
   }
 
   @ApiOperation({ summary: `Delete user's info` })
@@ -46,8 +46,11 @@ export class UserController {
     description: `All values are optional`,
   })
   @Patch(':idx')
-  updateUser(@Param('idx') idx: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.updateUser(parseInt(idx), updateUserDto);
+  updateUser(
+    @Param('idx', ParseIntPipe) idx: number,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return this.userService.updateUser(idx, updateUserDto);
   }
 
   @ApiOperation({
