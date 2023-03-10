@@ -1,5 +1,4 @@
-'03.06'
+until '03.11'
 
 - cookie with jwt
-- interceptor
 - test User CRUD
