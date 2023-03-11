@@ -89,7 +89,6 @@ export class UserController {
   @ApiOperation({
     summary: `Signin API`,
   })
-  @Serialize(UserDto)
   @Post('/signin')
   signin(@Body() loginDto: LoginDto) {
     return this.authService.signin(loginDto);
