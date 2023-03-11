@@ -4,22 +4,20 @@ const prisma = new PrismaClient();
 
 async function main() {
   const firstSeed = await prisma.user.upsert({
-    where: { id: 'First id' },
+    where: { email: 'First Email' },
     update: {},
     create: {
-      id: 'First id',
-      password: 'First password',
       email: 'First Email',
+      password: 'First password',
       nickname: 'First Nickname',
     },
   });
   const secondSeed = await prisma.user.upsert({
-    where: { id: 'Second id' },
+    where: { email: 'Second email' },
     update: {},
     create: {
-      id: 'Second id',
-      password: 'Second password',
       email: 'Second Email',
+      password: 'Second password',
       nickname: 'Second Nickname',
     },
   });

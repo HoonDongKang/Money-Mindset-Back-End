@@ -21,20 +21,20 @@ export class AuthService {
 
   // After verifying email, if there's no email in use
   async signup(createUserDto: CreateUserDto) {
-    const { email, id, nickname, password } = createUserDto;
+    const { email, nickname, password } = createUserDto;
     const salt = await bcyrpt.genSalt(10);
     const hashedPassword = await bcyrpt.hash(password, salt);
 
     const user = await this.prisma.user.create({
-      data: { email, id, nickname, password: hashedPassword },
+      data: { email, nickname, password: hashedPassword },
     });
 
     return user;
   }
 
   async signin(logindto: LoginDto) {
-    const { id, password } = logindto;
-    const user = await this.prisma.user.findUnique({ where: { id } });
+    const { email, password } = logindto;
+    const user = await this.prisma.user.findUnique({ where: { email } });
     // if (user && (await bcyrpt.compare(password, user.password))) {
     //   const payload = { id };
     //   const accessToken = await this.jwtService.sign(payload);
@@ -42,7 +42,7 @@ export class AuthService {
     // } else {
     //   throw new BadRequestException(`Invalid account`);
     if (!user) {
-      throw new BadRequestException('Invalid ID');
+      throw new BadRequestException('Invalid Email');
     }
     const IsEqual = await bcyrpt.compare(password, user.password);
     if (!IsEqual) {
