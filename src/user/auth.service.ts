@@ -4,13 +4,11 @@ import { CreateUserDto } from './dto/create-users.dto';
 import { UserService } from './user.service';
 import * as bcyrpt from 'bcrypt';
 import { LoginDto } from './dto/login-users.dto';
-import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
-    private jwtService: JwtService,
     private prisma: PrismaService,
   ) {}
 
@@ -37,23 +35,20 @@ export class AuthService {
   async signin(logindto: LoginDto) {
     const { id, password } = logindto;
     const user = await this.prisma.user.findUnique({ where: { id } });
-    if (user && (await bcyrpt.compare(password, user.password))) {
-      const payload = { id };
-      const accessToken = await this.jwtService.sign(payload);
-      return { accessToken };
-    } else {
-      throw new BadRequestException(`Invalid account`);
+    // if (user && (await bcyrpt.compare(password, user.password))) {
+    //   const payload = { id };
+    //   const accessToken = await this.jwtService.sign(payload);
+    //   return { accessToken };
+    // } else {
+    //   throw new BadRequestException(`Invalid account`);
+    if (!user) {
+      throw new BadRequestException('Invalid ID');
     }
-
-    // if (!user) {
-    //   throw new BadRequestException('Invalid ID');
-    // }
-    // const IsEqual = await bcyrpt.compare(password, user.password);
-    // if (!IsEqual) {
-    //   throw new BadRequestException('Invalid PW');
-    // } else{
-    // }
-    //   return { IsEqual };
-    // }
+    const IsEqual = await bcyrpt.compare(password, user.password);
+    if (!IsEqual) {
+      throw new BadRequestException('Invalid PW');
+    } else {
+    }
+    return { IsEqual };
   }
 }
