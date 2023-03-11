@@ -20,7 +20,6 @@ import { UserDto } from './dto/user.dto';
 
 @Controller('user')
 @ApiTags('user')
-@Serialize(UserDto)
 export class UserController {
   constructor(
     private userService: UserService,
@@ -29,18 +28,21 @@ export class UserController {
 
   @ApiOperation({ summary: `Get all users' info` })
   @Get()
+  @Serialize(UserDto)
   findAllUser() {
     return this.userService.findAll();
   }
 
   @ApiOperation({ summary: `Get user's info` })
   @Get(':idx')
+  @Serialize(UserDto)
   findOneUser(@Param('idx', ParseIntPipe) idx: number) {
     return this.userService.findOne(idx);
   }
 
   @ApiOperation({ summary: `Delete user's info` })
   @Delete('/:idx')
+  @Serialize(UserDto)
   removeUser(@Param('idx', ParseIntPipe) idx: number) {
     return this.userService.removeUser(idx);
   }
@@ -50,6 +52,7 @@ export class UserController {
     description: `All values are optional`,
   })
   @Patch(':idx')
+  @Serialize(UserDto)
   updateUser(
     @Param('idx', ParseIntPipe) idx: number,
     @Body() updateUserDto: UpdateUserDto,
@@ -64,12 +67,13 @@ export class UserController {
   @ApiBody({
     schema: {
       properties: {
-        email: { type: 'string' },
+        email: { type: 'string', example: 'sample@naver.com' },
       },
     },
   })
   @Post('/email')
   verifyEmail(@Body() body: { email: string }) {
+    console.log('exe');
     return this.authService.emailVerify(body.email);
   }
 
@@ -77,6 +81,7 @@ export class UserController {
     summary: `Create a new user`,
   })
   @Post('/signup')
+  @Serialize(UserDto)
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.authService.signup(createUserDto);
   }
@@ -84,6 +89,7 @@ export class UserController {
   @ApiOperation({
     summary: `Signin API`,
   })
+  @Serialize(UserDto)
   @Post('/signin')
   signin(@Body() loginDto: LoginDto) {
     return this.authService.signin(loginDto);
