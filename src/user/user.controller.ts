@@ -10,7 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { AuthService } from './auth.service';
+import { AuthService } from '../auth/auth.service';
 import { CreateUserDto } from './dto/create-users.dto';
 import { UpdateUserDto } from './dto/update-users.dto';
 import { UserService } from './user.service';

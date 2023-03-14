@@ -1,15 +1,17 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateUserDto } from './dto/create-users.dto';
-import { UserService } from './user.service';
+import { CreateUserDto } from '../user/dto/create-users.dto';
+import { UserService } from '../user/user.service';
 import * as bcyrpt from 'bcrypt';
-import { LoginDto } from './dto/login-users.dto';
+import { LoginDto } from '../user/dto/login-users.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
     private prisma: PrismaService,
+    private jwtService: JwtService,
   ) {}
 
   async emailVerify(email: string) {
@@ -48,7 +50,8 @@ export class AuthService {
     if (!IsEqual) {
       throw new BadRequestException('Invalid PW');
     } else {
+      const payload = { idx: user.idx, email };
+      return { IsEqual, accessToken: this.jwtService.sign(payload) };
     }
-    return { IsEqual };
   }
 }
