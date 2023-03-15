@@ -10,9 +10,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   imports: [
     ConfigModule,
     UserModule,
-    PassportModule,
     JwtModule.register({
-      secret: process.env.NODE_ENV('JWT_SECRET'),
+      secret: process.env.JWT_SECRET,
+      signOptions: {
+        expiresIn: '300s',
+      },
     }),
   ],
   providers: [AuthService, PrismaService],

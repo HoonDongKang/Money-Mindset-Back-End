@@ -9,17 +9,16 @@ import { UserModule } from './user/user.module';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import e from 'express';
+import { JwtService } from '@nestjs/jwt';
 @Module({
   imports: [
-    PrismaModule,
-    UserModule,
-    AuthModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
   ],
   controllers: [AppController, UserController],
-  providers: [AppService, PrismaService, UserService, AuthService],
+  providers: [AppService, UserService, PrismaService, AuthService, JwtService],
 })
 export class AppModule {}
