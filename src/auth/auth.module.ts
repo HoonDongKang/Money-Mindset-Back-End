@@ -5,11 +5,14 @@ import { UserModule } from './../user/user.module';
 import { AuthService } from './auth.service';
 import { PrismaService } from './../prisma/prisma.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import * as dotenv from 'dotenv';
+import { JwtStrategy } from './jwt.strategy';
+dotenv.config();
 
 @Module({
   imports: [
     ConfigModule,
-    UserModule,
+    PassportModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: {
@@ -18,6 +21,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     }),
   ],
   providers: [AuthService, PrismaService],
-  exports: [AuthService],
+  exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

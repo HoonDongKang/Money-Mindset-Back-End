@@ -13,12 +13,14 @@ import e from 'express';
 import { JwtService } from '@nestjs/jwt';
 @Module({
   imports: [
+    UserModule,
+    AuthModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
   ],
   controllers: [AppController, UserController],
-  providers: [AppService, UserService, PrismaService, AuthService, JwtService],
+  providers: [AppService],
 })
 export class AppModule {}
