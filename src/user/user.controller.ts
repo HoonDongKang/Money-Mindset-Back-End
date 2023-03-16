@@ -7,6 +7,8 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Request,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -17,6 +19,7 @@ import { UserService } from './user.service';
 import { LoginDto } from './dto/login-users.dto';
 import { Serialize } from './../interceptors/serialize.interceptor';
 import { UserDto } from './dto/user.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('user')
 @ApiTags('user')
@@ -31,6 +34,13 @@ export class UserController {
   @Serialize(UserDto)
   findAllUser() {
     return this.userService.findAll();
+  }
+
+  @ApiOperation({ summary: 'get profile from jwt' })
+  @UseGuards(JwtAuthGuard)
+  @Get('/validate')
+  async getProfile(@Request() req) {
+    return req.user;
   }
 
   @ApiOperation({ summary: `Get user's info` })
