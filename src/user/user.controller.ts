@@ -11,7 +11,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from '../auth/auth.service';
 import { CreateUserDto } from './dto/create-users.dto';
 import { UpdateUserDto } from './dto/update-users.dto';
@@ -37,7 +37,9 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'get profile from jwt' })
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
+  @Serialize(UserDto)
   @Get('/validate')
   async getProfile(@Request() req) {
     return req.user;
