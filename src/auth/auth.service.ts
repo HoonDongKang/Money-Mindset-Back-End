@@ -1,17 +1,17 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from '../user/dto/create-users.dto';
-import { UserService } from '../user/user.service';
 import * as bcyrpt from 'bcrypt';
 import { LoginDto } from '../user/dto/login-users.dto';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UserService,
+    private configService: ConfigService,
     private prisma: PrismaService,
-    private jwtService: JwtService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async emailVerify(email: string) {
@@ -37,12 +37,6 @@ export class AuthService {
   async signin(logindto: LoginDto) {
     const { email, password } = logindto;
     const user = await this.prisma.user.findUnique({ where: { email } });
-    // if (user && (await bcyrpt.compare(password, user.password))) {
-    //   const payload = { id };
-    //   const accessToken = await this.jwtService.sign(payload);
-    //   return { accessToken };
-    // } else {
-    //   throw new BadRequestException(`Invalid account`);
     if (!user) {
       throw new BadRequestException('Invalid Email');
     }
@@ -51,7 +45,10 @@ export class AuthService {
       throw new BadRequestException('Invalid PW');
     } else {
       const payload = { idx: user.idx, email };
-      return { IsEqual, accessToken: this.jwtService.sign(payload) };
+      return {
+        IsEqual,
+        accessToken: this.jwtService.sign(payload),
+      };
     }
   }
 }

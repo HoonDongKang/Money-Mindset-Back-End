@@ -7,9 +7,11 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Request,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from '../auth/auth.service';
 import { CreateUserDto } from './dto/create-users.dto';
 import { UpdateUserDto } from './dto/update-users.dto';
@@ -17,6 +19,7 @@ import { UserService } from './user.service';
 import { LoginDto } from './dto/login-users.dto';
 import { Serialize } from './../interceptors/serialize.interceptor';
 import { UserDto } from './dto/user.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('user')
 @ApiTags('user')
@@ -33,18 +36,28 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  @ApiOperation({ summary: 'get profile from jwt' })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Serialize(UserDto)
+  @Get('/validate')
+  async getProfile(@Request() req) {
+    //req user 정보 이용해서 쿠키 담기
+    return req.user;
+  }
+
   @ApiOperation({ summary: `Get user's info` })
   @Get(':idx')
   @Serialize(UserDto)
   findOneUser(@Param('idx', ParseIntPipe) idx: number) {
-    return this.userService.findOne(idx);
+    return this.userService.findOneByIdx(idx);
   }
 
   @ApiOperation({ summary: `Delete user's info` })
   @Delete('/:idx')
   @Serialize(UserDto)
   removeUser(@Param('idx', ParseIntPipe) idx: number) {
-    return this.userService.removeUser(idx);
+    return this.userService.removeUserById(idx);
   }
 
   @ApiOperation({
@@ -57,7 +70,7 @@ export class UserController {
     @Param('idx', ParseIntPipe) idx: number,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    return this.userService.updateUser(idx, updateUserDto);
+    return this.userService.updateUserByIdx(idx, updateUserDto);
   }
 
   @ApiOperation({
