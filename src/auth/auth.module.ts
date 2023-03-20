@@ -9,6 +9,11 @@ import { UserService } from 'src/user/user.service';
 import { RefreshTokenStrategy } from './refreshToken.strategy';
 
 @Module({
+<<<<<<< HEAD
+  imports: [UserModule, PassportModule, JwtModule.register({})],
+  providers: [AuthService, PrismaService],
+  exports: [AuthService],
+=======
   imports: [
     ConfigModule,
     PassportModule,
@@ -31,5 +36,6 @@ import { RefreshTokenStrategy } from './refreshToken.strategy';
     RefreshTokenStrategy,
   ],
   exports: [AuthService, JwtModule],
+>>>>>>> 0c3132f40daa087574d44f35b0a5bcf1c6a07004
 })
 export class AuthModule {}

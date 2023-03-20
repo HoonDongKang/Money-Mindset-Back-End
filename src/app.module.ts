@@ -7,6 +7,9 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
+<<<<<<< HEAD
+  imports: [PrismaModule, UserModule, AuthModule],
+=======
   imports: [
     UserModule,
     AuthModule,
@@ -15,6 +18,7 @@ import { ConfigModule } from '@nestjs/config';
       envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
   ],
+>>>>>>> 0c3132f40daa087574d44f35b0a5bcf1c6a07004
   controllers: [AppController, UserController],
   providers: [AppService],
 })
