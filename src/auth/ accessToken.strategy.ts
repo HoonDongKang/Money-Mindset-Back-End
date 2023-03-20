@@ -6,7 +6,10 @@ import { UserService } from 'src/user/user.service';
 import { Request } from 'express';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class AccessTokenStrategy extends PassportStrategy(
+  Strategy,
+  'accessToken',
+) {
   constructor(private config: ConfigService, private userService: UserService) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([

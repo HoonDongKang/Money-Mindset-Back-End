@@ -4,10 +4,12 @@ import { CreateUserDto } from '../user/dto/create-users.dto';
 import * as bcyrpt from 'bcrypt';
 import { LoginDto } from '../user/dto/login-users.dto';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private configService: ConfigService,
     private prisma: PrismaService,
     private readonly jwtService: JwtService,
   ) {}
