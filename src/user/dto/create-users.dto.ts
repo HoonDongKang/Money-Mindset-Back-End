@@ -5,18 +5,21 @@ export class CreateUserDto {
   @IsEmail()
   @ApiProperty({
     name: 'email',
-    description: 'User Email',
     example: 'sample@naver.com',
   })
   email: string;
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ name: 'password', description: 'User PW', required: false })
+  @ApiProperty({ name: 'password', required: false })
   password: string;
 
   @IsString()
   @IsNotEmpty()
-  @ApiProperty({ name: 'nickname', description: 'User Nickname' })
+  @ApiProperty({ name: 'nickname' })
   nickname: string;
+
+  @IsString()
+  @ApiProperty({ name: 'refresh token' })
+  refreshToken: string;
 }

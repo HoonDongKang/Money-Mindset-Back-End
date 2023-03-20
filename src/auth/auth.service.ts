@@ -5,11 +5,14 @@ import * as bcyrpt from 'bcrypt';
 import { LoginDto } from '../user/dto/login-users.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { UserDto } from './../user/dto/user.dto';
+import { UserService } from './../user/user.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private configService: ConfigService,
+    private userService: UserService,
     private prisma: PrismaService,
     private readonly jwtService: JwtService,
   ) {}
@@ -44,11 +47,37 @@ export class AuthService {
     if (!IsEqual) {
       throw new BadRequestException('Invalid PW');
     } else {
-      const payload = { idx: user.idx, email };
+      const { accessToken, refreshToken } = this.generateToken({
+        idx: user.idx,
+        email: user.email,
+        nickname: user.nickname,
+      });
+      await this.userService.updateUserByIdx(user.idx, { refreshToken });
       return {
         IsEqual,
-        accessToken: this.jwtService.sign(payload),
+        refreshToken,
       };
     }
   }
+
+  generateToken(userDto: UserDto) {
+    const { idx, email, nickname } = userDto;
+    const payload = { idx, email, nickname };
+    const accessToken = this.jwtService.sign(payload, {
+      secret: this.configService.get<string>('JWT_SECRET'),
+      expiresIn: '1h',
+    });
+
+    const refreshTokenPayload = { idx, accessToken };
+    const refreshToken = this.jwtService.sign(refreshTokenPayload, {
+      secret: this.configService.get<string>('RT_JWT_SECRET'),
+      expiresIn: '7d',
+    });
+
+    return { accessToken, refreshToken };
+  }
+
+  // updateRefreshToken(accessToken: string) {
+
+  // }
 }

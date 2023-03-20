@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Request,
+  Res,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -20,6 +21,7 @@ import { LoginDto } from './dto/login-users.dto';
 import { Serialize } from './../interceptors/serialize.interceptor';
 import { UserDto } from './dto/user.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Response } from 'express';
 
 @Controller('user')
 @ApiTags('user')
@@ -103,7 +105,14 @@ export class UserController {
     summary: `Signin API`,
   })
   @Post('/signin')
-  signin(@Body() loginDto: LoginDto) {
-    return this.authService.signin(loginDto);
+  async signin(@Body() loginDto: LoginDto, @Res() res: Response) {
+    const { refreshToken, IsEqual } = await this.authService.signin(loginDto);
+    res.cookie('jwt', refreshToken, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000, //7d
+    });
+    return res.send({
+      IsEqual,
+    });
   }
 }

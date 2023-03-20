@@ -9,20 +9,7 @@ import { UserService } from 'src/user/user.service';
 import { RefreshTokenStrategy } from './refreshToken.strategy';
 
 @Module({
-  imports: [
-    ConfigModule,
-    PassportModule,
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'),
-        signOptions: {
-          expiresIn: '300s',
-        },
-      }),
-      inject: [ConfigService],
-    }),
-  ],
+  imports: [ConfigModule, PassportModule, JwtModule.register({})],
   providers: [
     AuthService,
     PrismaService,

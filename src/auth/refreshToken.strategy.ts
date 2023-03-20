@@ -15,7 +15,7 @@ export class RefreshTokenStrategy extends PassportStrategy(
       jwtFromRequest: ExtractJwt.fromExtractors([
         //cookie에서 jwt 추출
         (request: Request) => {
-          return request?.cookies?.ACESS_TOKEN;
+          return request?.cookies?.REFRESH_TOKEN;
         },
         //authorization에서 jwt 추출
         ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -24,10 +24,11 @@ export class RefreshTokenStrategy extends PassportStrategy(
       secretOrKey: config.get<string>('JWT_SECRET'),
     });
   }
+  //jwt 토큰 검사 완료 후
   async validate(payload: any, req: Request) {
     const refreshToken =
       req.get('Authorization').replace('Bearer', '').trim() ||
-      req.cookies?.REFRESH_LOGIN_TOKEN;
+      req.cookies?.REFRESH_TOKEN;
     return { ...payload, refreshToken };
   }
 }
