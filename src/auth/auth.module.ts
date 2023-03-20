@@ -6,13 +6,7 @@ import { AuthService } from './auth.service';
 import { PrismaService } from './../prisma/prisma.service';
 
 @Module({
-  imports: [
-    UserModule,
-    PassportModule,
-    JwtModule.register({
-      secret: process.env.NODEE,
-    }),
-  ],
+  imports: [UserModule, PassportModule, JwtModule.register({})],
   providers: [AuthService, PrismaService],
   exports: [AuthService],
 })
