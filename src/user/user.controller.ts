@@ -49,14 +49,14 @@ export class UserController {
   @Get(':idx')
   @Serialize(UserDto)
   findOneUser(@Param('idx', ParseIntPipe) idx: number) {
-    return this.userService.findOne(idx);
+    return this.userService.findOneByIdx(idx);
   }
 
   @ApiOperation({ summary: `Delete user's info` })
   @Delete('/:idx')
   @Serialize(UserDto)
   removeUser(@Param('idx', ParseIntPipe) idx: number) {
-    return this.userService.removeUser(idx);
+    return this.userService.removeUserById(idx);
   }
 
   @ApiOperation({
@@ -69,7 +69,7 @@ export class UserController {
     @Param('idx', ParseIntPipe) idx: number,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    return this.userService.updateUser(idx, updateUserDto);
+    return this.userService.updateUserByIdx(idx, updateUserDto);
   }
 
   @ApiOperation({

@@ -10,7 +10,7 @@ export class UserService {
     return this.prisma.user.findMany();
   }
 
-  async findOne(idx: number) {
+  async findOneByIdx(idx: number) {
     const user = await this.prisma.user.findUnique({ where: { idx } });
     if (!user) {
       throw new NotFoundException(`User number ${idx} is not exist.`);
@@ -18,18 +18,18 @@ export class UserService {
     return user;
   }
 
-  async removeUser(idx: number) {
+  async removeUserById(idx: number) {
     try {
-      await this.findOne(idx);
+      await this.findOneByIdx(idx);
     } catch (e) {
       console.error(e);
     }
     return this.prisma.user.delete({ where: { idx } });
   }
 
-  async updateUser(idx: number, updateUserDto: UpdateUserDto) {
+  async updateUserByIdx(idx: number, updateUserDto: UpdateUserDto) {
     try {
-      await this.findOne(idx);
+      await this.findOneByIdx(idx);
     } catch (e) {
       console.error(e);
     }
