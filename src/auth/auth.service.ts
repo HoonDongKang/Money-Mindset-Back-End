@@ -68,7 +68,7 @@ export class AuthService {
       expiresIn: '1h',
     });
 
-    const refreshTokenPayload = { idx, accessToken };
+    const refreshTokenPayload = { idx };
     const refreshToken = this.jwtService.sign(refreshTokenPayload, {
       secret: this.configService.get<string>('RT_JWT_SECRET'),
       expiresIn: '7d',
@@ -77,7 +77,7 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  // updateRefreshToken(accessToken: string) {
-
-  // }
+  async updateRefreshToken(idx: number, accessToken: string) {
+    const user = await this.userService.findOneByIdx(idx);
+  }
 }

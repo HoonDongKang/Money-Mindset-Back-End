@@ -15,7 +15,7 @@ export class RefreshTokenStrategy extends PassportStrategy(
       jwtFromRequest: ExtractJwt.fromExtractors([
         //cookie에서 jwt 추출
         (request: Request) => {
-          return request?.cookies?.REFRESH_TOKEN;
+          return request?.cookies?.refresh_token;
         },
         //authorization에서 jwt 추출
         ExtractJwt.fromAuthHeaderAsBearerToken(),

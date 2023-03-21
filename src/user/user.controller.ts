@@ -107,12 +107,13 @@ export class UserController {
   @Post('/signin')
   async signin(@Body() loginDto: LoginDto, @Res() res: Response) {
     const { refreshToken, IsEqual } = await this.authService.signin(loginDto);
-    res.cookie('jwt', refreshToken, {
+    res.cookie('refresh_token', refreshToken, {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000, //7d
     });
     return res.send({
       IsEqual,
+      refreshToken,
     });
   }
 }
