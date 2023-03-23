@@ -61,10 +61,12 @@ export class UserService {
     } catch (e) {
       console.error(e);
     }
-    const hashedPassword = await this.authService.bcryptHashed(
-      updateUserDto.password,
-    );
-    Object.assign(updateUserDto, { password: hashedPassword });
+    if (updateUserDto.password) {
+      const hashedPassword = await this.authService.bcryptHashed(
+        updateUserDto.password,
+      );
+      Object.assign(updateUserDto, { password: hashedPassword });
+    }
 
     return this.prisma.user.update({
       where: { idx },

@@ -38,7 +38,14 @@ export class AuthService {
       data: { email, nickname, password: hashedPassword },
     });
 
-    return user;
+    const { accessToken } = this.generateAccessToken({
+      idx: user.idx,
+      email: user.email,
+      nickname: user.nickname,
+    });
+    const { refreshToken } = this.generateRefreshToken(user.idx);
+
+    return { user, accessToken, refreshToken };
   }
 
   async signin(logindto: LoginDto) {
@@ -47,38 +54,40 @@ export class AuthService {
     if (!user) {
       throw new BadRequestException('Invalid Email');
     }
-    const IsEqual = await bcyrpt.compare(password, user.password);
+    const IsEqual = await this.bcryptCompare(password, user.password);
     if (!IsEqual) {
       throw new BadRequestException('Invalid PW');
     } else {
-      const { accessToken, refreshToken } = this.generateToken({
+      const { accessToken } = this.generateAccessToken({
         idx: user.idx,
         email: user.email,
         nickname: user.nickname,
       });
+      const { refreshToken } = this.generateRefreshToken(user.idx);
       await this.userService.updateUserByIdx(user.idx, { refreshToken });
       return {
         IsEqual,
+        accessToken,
         refreshToken,
       };
     }
   }
 
-  generateToken(userDto: UserDto) {
-    const { idx, email, nickname } = userDto;
-    const payload = { idx, email, nickname };
-    const accessToken = this.jwtService.sign(payload, {
+  generateAccessToken(userDto: UserDto) {
+    const accessToken = this.jwtService.sign(userDto, {
       secret: this.configService.get<string>('JWT_SECRET'),
       expiresIn: '1h',
     });
+    return { accessToken };
+  }
 
-    const refreshTokenPayload = { idx };
-    const refreshToken = this.jwtService.sign(refreshTokenPayload, {
+  generateRefreshToken(idx: number) {
+    const paylaod = { idx };
+    const refreshToken = this.jwtService.sign(paylaod, {
       secret: this.configService.get<string>('RT_JWT_SECRET'),
       expiresIn: '7d',
     });
-
-    return { accessToken, refreshToken };
+    return { refreshToken };
   }
 
   async updateRefreshToken(idx: number, accessToken: string) {
