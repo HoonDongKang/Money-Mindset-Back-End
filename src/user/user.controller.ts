@@ -89,7 +89,7 @@ export class UserController {
   @Post('/email')
   verifyEmail(@Body() body: { email: string }) {
     console.log('exe');
-    return this.authService.emailVerify(body.email);
+    return this.userService.checkEmailDuplicate(body.email);
   }
 
   @ApiOperation({

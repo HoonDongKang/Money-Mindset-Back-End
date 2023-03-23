@@ -17,18 +17,22 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async emailVerify(email: string) {
-    let isExisted = true;
-    const user = await this.prisma.user.findFirst({ where: { email } });
-    !user ? (isExisted = false) : (isExisted = true);
-    return { isExisted };
+  async bcryptHashed(data: string) {
+    const salt = await bcyrpt.genSalt(10);
+    const hasedData = await bcyrpt.hash(data, salt);
+
+    return hasedData;
+  }
+
+  async bcryptCompare(data: string, hashedData: string) {
+    const IsEqual = await bcyrpt.compare(data, hashedData);
+    return IsEqual;
   }
 
   // After verifying email, if there's no email in use
   async signup(createUserDto: CreateUserDto) {
     const { email, nickname, password } = createUserDto;
-    const salt = await bcyrpt.genSalt(10);
-    const hashedPassword = await bcyrpt.hash(password, salt);
+    const hashedPassword = await this.bcryptHashed(password);
 
     const user = await this.prisma.user.create({
       data: { email, nickname, password: hashedPassword },

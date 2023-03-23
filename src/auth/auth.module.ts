@@ -7,12 +7,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AccessTokenStrategy } from './ accessToken.strategy';
 import { UserService } from 'src/user/user.service';
 import { RefreshTokenStrategy } from './refreshToken.strategy';
+import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
-  imports: [ConfigModule, PassportModule, JwtModule.register({})],
+  imports: [ConfigModule, PassportModule, JwtModule.register({}), PrismaModule],
   providers: [
     AuthService,
-    PrismaService,
     UserService,
     AccessTokenStrategy,
     RefreshTokenStrategy,
