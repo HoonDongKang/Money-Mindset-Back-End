@@ -97,8 +97,19 @@ export class UserController {
   })
   @Post('/signup')
   @Serialize(UserDto)
-  createUser(@Body() createUserDto: CreateUserDto) {
-    return this.authService.signup(createUserDto);
+  async createUser(@Body() createUserDto: CreateUserDto, @Res() res: Response) {
+    const { refreshToken, user, accessToken } = await this.authService.signup(
+      createUserDto,
+    );
+    res.cookie('refresh_token', refreshToken, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000, //7d
+    });
+    return res.send({
+      user,
+      accessToken,
+      refreshToken,
+    });
   }
 
   @ApiOperation({
