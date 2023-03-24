@@ -20,6 +20,7 @@ export class CreateUserDto {
   nickname: string;
 
   @IsString()
+  @IsOptional()
   @ApiProperty({ name: 'refresh token' })
   refreshToken: string;
 }
