@@ -1,6 +1,6 @@
-import { Controller, Get, Req, Res } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Controller, Get, Request, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
+import { JwtRefreshAuthGuard } from './auth/refresh-jwt-auth.guard';
 
 @Controller()
 export class AppController {
@@ -12,8 +12,8 @@ export class AppController {
   }
 
   @Get('/cookies')
-  getCookies(@Req() req: Request, @Res() res: Response): any {
-    const jwt = req.cookies['jwt'];
-    return res.send(jwt);
+  @UseGuards(JwtRefreshAuthGuard)
+  getCookies(@Request() req): any {
+    return req.user;
   }
 }
