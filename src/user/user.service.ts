@@ -55,6 +55,11 @@ export class UserService {
     return { isEqual };
   }
 
+  async forgotPw(email: string, changedPw: string) {
+    const user = await this.prisma.user.findFirst({ where: { email } });
+    return this.updateUserByIdx(user.idx, { password: changedPw });
+  }
+
   async updateUserByIdx(idx: number, updateUserDto: UpdateUserDto) {
     try {
       await this.findOneByIdx(idx);

@@ -88,8 +88,24 @@ export class UserController {
   })
   @Post('/email')
   verifyEmail(@Body() body: { email: string }) {
-    console.log('exe');
     return this.userService.checkEmailDuplicate(body.email);
+  }
+
+  @ApiOperation({
+    summary: `Update user's password when lost`,
+    description: ``,
+  })
+  @ApiBody({
+    schema: {
+      properties: {
+        email: { type: 'string', example: 'sample@naver.com' },
+        changedPw: { type: 'string', example: 'changed password' },
+      },
+    },
+  })
+  @Post('/forget')
+  forgetPassword(@Body() body: { email: string; changedPw: string }) {
+    return this.userService.forgotPw(body.email, body.changedPw);
   }
 
   @ApiOperation({
