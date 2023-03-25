@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   forwardRef,
   Inject,
   Injectable,
@@ -8,7 +7,6 @@ import {
 import { AuthService } from '../auth/auth.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { UpdateUserDto } from './dto/update-users.dto';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {

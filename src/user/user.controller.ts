@@ -7,8 +7,9 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  Request,
+  Req,
   Res,
+  Request,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -21,7 +22,8 @@ import { LoginDto } from './dto/login-users.dto';
 import { Serialize } from './../interceptors/serialize.interceptor';
 import { UserDto } from './dto/user.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { Response } from 'express';
+import { Response, Request as expReq } from 'express';
+import { JwtRefreshAuthGuard } from 'src/auth/refresh-jwt-auth.guard';
 
 @Controller('user')
 @ApiTags('user')
@@ -46,6 +48,15 @@ export class UserController {
   async getProfile(@Request() req) {
     //req user 정보 이용해서 쿠키 담기
     return req.user;
+  }
+
+  @ApiOperation({ summary: 'get access token after refresh token comparison' })
+  @UseGuards(JwtRefreshAuthGuard)
+  @Get('/refresh')
+  async getAccessToken(@Req() req: expReq) {
+    return await this.authService.refreshAccessToken(
+      req.cookies['refresh_token'],
+    );
   }
 
   @ApiOperation({ summary: `Get user's info` })

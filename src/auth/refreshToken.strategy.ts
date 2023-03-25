@@ -11,7 +11,6 @@ export class RefreshTokenStrategy extends PassportStrategy(
   'refreshToken',
 ) {
   constructor(private config: ConfigService, private userService: UserService) {
-    console.log('1');
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         //cookie에서 jwt 추출
@@ -26,7 +25,6 @@ export class RefreshTokenStrategy extends PassportStrategy(
   //jwt 토큰 검사 완료 후
   async validate(payload: any, req: Request) {
     const refreshToken = req.cookies?.refresh_token;
-    console.log(payload);
     return { refreshToken };
   }
 }

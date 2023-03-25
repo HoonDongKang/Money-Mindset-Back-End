@@ -7,6 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { UserDto } from './../user/dto/user.dto';
 import { UserService } from './../user/user.service';
+import { access } from 'fs';
 
 @Injectable()
 export class AuthService {
@@ -87,10 +88,32 @@ export class AuthService {
       secret: this.configService.get<string>('RT_JWT_SECRET'),
       expiresIn: '7d',
     });
+    // const user = await this.userService.findOneByIdx(idx);
+    // if (user.refreshToken) {
+    //   await this.userService.updateUserByIdx(idx, { refreshToken });
+    // }
+
     return { refreshToken };
   }
 
-  async updateRefreshToken(idx: number, accessToken: string) {
-    const user = await this.userService.findOneByIdx(idx);
+  async refreshAccessToken(refreshToken: string) {
+    const payload: any = this.jwtService.decode(refreshToken);
+    const user = await this.userService.findOneByIdx(payload.idx);
+    if (refreshToken === user.refreshToken) {
+      const accesstoken = this.generateAccessToken({
+        idx: user.idx,
+        nickname: user.nickname,
+        email: user.email,
+      });
+      return accesstoken;
+    } else {
+      return false;
+    }
+  }
+
+  compareTokenExpiration(exp: number) {
+    const time = new Date().getTime() / 1000;
+    const isExpired = exp < time ? true : false;
+    return isExpired;
   }
 }
