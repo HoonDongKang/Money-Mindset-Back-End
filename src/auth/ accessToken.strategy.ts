@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
@@ -26,15 +26,14 @@ export class AccessTokenStrategy extends PassportStrategy(
       secretOrKey: config.get<string>('JWT_SECRET'),
     });
   }
-  async validate(req: Request, payload: { sub: string }) {
-    console.log(`here's validate`);
-    // console.log('1');
-    // console.log(req.headers.authorization.replace('Bearer ', ''));
-    // console.log(payload);
-    // if (!this.authService.compareTokenExpiration(payload.exp)) {
-    //   return this.userService.findOneByIdx(payload.idx);
-    // } else {
-    //   return 'token expired';
-    // }
+  async validate(
+    req: Request,
+    payload: { sub: string; exp: number; idx: number },
+  ) {
+    if (!this.authService.compareTokenExpiration(payload.exp)) {
+      return this.userService.findOneByIdx(payload.idx);
+    } else {
+      throw new UnauthorizedException('Access token has been expired.');
+    }
   }
 }

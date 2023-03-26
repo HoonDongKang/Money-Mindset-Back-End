@@ -88,11 +88,6 @@ export class AuthService {
       secret: this.configService.get<string>('RT_JWT_SECRET'),
       expiresIn: '7d',
     });
-    // const user = await this.userService.findOneByIdx(idx);
-    // if (user.refreshToken) {
-    //   await this.userService.updateUserByIdx(idx, { refreshToken });
-    // }
-
     return { refreshToken };
   }
 
