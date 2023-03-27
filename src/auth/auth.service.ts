@@ -45,6 +45,7 @@ export class AuthService {
       nickname: user.nickname,
     });
     const { refreshToken } = this.generateRefreshToken(user.idx);
+    await this.userService.updateUserByIdx(user.idx, { refreshToken });
 
     return { user, accessToken, refreshToken };
   }

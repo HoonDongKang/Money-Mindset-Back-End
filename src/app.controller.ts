@@ -1,6 +1,8 @@
 import { Controller, Get, Request, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { JwtRefreshAuthGuard } from './auth/refresh-jwt-auth.guard';
+import { Serialize } from './interceptors/serialize.interceptor';
+import { UserDto } from './user/dto/user.dto';
 
 @Controller()
 export class AppController {
@@ -12,6 +14,7 @@ export class AppController {
   }
 
   @Get('/cookies')
+  @Serialize(UserDto)
   @UseGuards(JwtRefreshAuthGuard)
   getCookies(@Request() req): any {
     return req.user;
