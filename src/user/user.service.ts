@@ -7,6 +7,7 @@ import {
 import { AuthService } from '../auth/auth.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { UpdateUserDto } from './dto/update-users.dto';
+import { CreateUserDto } from './dto/create-users.dto';
 
 @Injectable()
 export class UserService {
@@ -18,6 +19,13 @@ export class UserService {
 
   findAll() {
     return this.prisma.user.findMany();
+  }
+
+  async createUser(email: string, nickname: string, password: string) {
+    const user = await this.prisma.user.create({
+      data: { email, nickname, password },
+    });
+    return user;
   }
 
   async findOneByIdx(idx: number) {
