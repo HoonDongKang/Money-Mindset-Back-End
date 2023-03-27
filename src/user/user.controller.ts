@@ -21,9 +21,9 @@ import { UserService } from './user.service';
 import { LoginDto } from './dto/login-users.dto';
 import { Serialize } from './../interceptors/serialize.interceptor';
 import { UserDto } from './dto/user.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Response, Request as expReq } from 'express';
-import { JwtRefreshAuthGuard } from 'src/auth/refresh-jwt-auth.guard';
+import { JwtRefreshAuthGuard } from '../auth/refresh-jwt-auth.guard';
 
 @Controller('user')
 @ApiTags('user')
