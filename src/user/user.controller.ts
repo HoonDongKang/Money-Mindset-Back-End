@@ -140,7 +140,7 @@ export class UserController {
   }
 
   @ApiOperation({
-    summary: `Signin API`,
+    summary: `Login with an account`,
   })
   @Post('/signin')
   async signin(@Body() loginDto: LoginDto, @Res() res: Response) {
@@ -155,5 +155,17 @@ export class UserController {
       accessToken,
       refreshToken,
     });
+  }
+
+  @ApiOperation({
+    summary: `Logout from account.`,
+    description: `Delete refresh_token in cookie.`,
+  })
+  @UseGuards(JwtRefreshAuthGuard)
+  @Post('/logout/:idx')
+  async Delete(@Res() res: Response, @Param('idx', ParseIntPipe) idx: number) {
+    await this.authService.logOut(idx);
+    res.cookie('refresh_token', '', { maxAge: 0 });
+    return res.redirect('/');
   }
 }

@@ -75,6 +75,11 @@ export class AuthService {
     }
   }
 
+  async logOut(idx: number) {
+    await this.userService.updateUserByIdx(idx, { refreshToken: null });
+    return true;
+  }
+
   generateAccessToken(userDto: UserDto) {
     const accessToken = this.jwtService.sign(userDto, {
       secret: this.configService.get<string>('JWT_SECRET'),
