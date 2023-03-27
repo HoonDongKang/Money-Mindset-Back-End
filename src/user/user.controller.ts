@@ -132,6 +132,7 @@ export class UserController {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000, //7d,
       sameSite: 'lax',
+      path: '/',
     });
     return res.send({
       user,
@@ -151,6 +152,7 @@ export class UserController {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000, //7d,
       sameSite: 'lax',
+      path: '/',
     });
     return res.send({
       IsEqual,
