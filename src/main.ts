@@ -6,8 +6,14 @@ import { PrismaClientExceptionFilter } from './prisma-client-exception/prisma-cl
 import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
-  app.enableCors();
+  const app = await NestFactory.create(AppModule, {
+    cors: { origin: 'http://localhost:3000', credentials: true },
+  });
+
+  app.enableCors({
+    origin: true,
+    credentials: true,
+  });
   app.use(cookieParser());
   const config = new DocumentBuilder()
     .setTitle('Money Mindset')
