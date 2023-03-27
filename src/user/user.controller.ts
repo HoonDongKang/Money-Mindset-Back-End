@@ -130,7 +130,8 @@ export class UserController {
     );
     res.cookie('refresh_token', refreshToken, {
       httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000, //7d
+      maxAge: 7 * 24 * 60 * 60 * 1000, //7d,
+      sameSite: 'lax',
     });
     return res.send({
       user,
@@ -148,7 +149,8 @@ export class UserController {
       await this.authService.signin(loginDto);
     res.cookie('refresh_token', refreshToken, {
       httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000, //7d
+      maxAge: 7 * 24 * 60 * 60 * 1000, //7d,
+      sameSite: 'lax',
     });
     return res.send({
       IsEqual,
