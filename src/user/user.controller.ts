@@ -25,6 +25,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Response, Request as expReq } from 'express';
 import { JwtRefreshAuthGuard } from '../auth/refresh-jwt-auth.guard';
 import { AuthGuard } from '@nestjs/passport';
+import { GoogleAuthGuard } from 'src/auth/google-auth.guard';
 
 @Controller('user')
 @ApiTags('user')
@@ -162,13 +163,17 @@ export class UserController {
     });
   }
 
-  @UseGuards(AuthGuard('google'))
-  @Get('/google')
-  async googleAuth(@Req() req) {}
+  @UseGuards(GoogleAuthGuard)
+  @Get('/google/login')
+  googleAuth(@Req() req, @Res() res) {
+    //여기로 접속하면
+    return { msg: 'Google Authentication' };
+  }
 
-  @UseGuards(AuthGuard('google'))
+  @UseGuards(GoogleAuthGuard)
   @Get('/google/callback')
-  async googleAuthRedirect(@Req() req) {
+  googleAuthRedirect(@Req() req) {
+    // 인증 완료시 여기로 정보가 보내짐
     return this.authService.googleLogin(req);
   }
 
