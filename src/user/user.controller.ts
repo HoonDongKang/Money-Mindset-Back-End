@@ -24,6 +24,7 @@ import { UserDto } from './dto/user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Response, Request as expReq } from 'express';
 import { JwtRefreshAuthGuard } from '../auth/refresh-jwt-auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('user')
 @ApiTags('user')
@@ -161,13 +162,23 @@ export class UserController {
     });
   }
 
+  @UseGuards(AuthGuard('google'))
+  @Get('/google')
+  async googleAuth(@Req() req) {}
+
+  @UseGuards(AuthGuard('google'))
+  @Get('/google/callback')
+  async googleAuthRedirect(@Req() req) {
+    return this.authService.googleLogin(req);
+  }
+
   @ApiOperation({
     summary: `Logout from account.`,
     description: `Delete refresh_token in cookie.`,
   })
   @UseGuards(JwtRefreshAuthGuard)
   @Post('/logout/:idx')
-  async Delete(@Res() res: Response, @Param('idx', ParseIntPipe) idx: number) {
+  async logOut(@Res() res: Response, @Param('idx', ParseIntPipe) idx: number) {
     await this.authService.logOut(idx);
     res.cookie('refresh_token', '', { maxAge: 0 });
     return res.redirect('/');

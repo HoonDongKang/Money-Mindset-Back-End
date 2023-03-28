@@ -8,6 +8,7 @@ import { AccessTokenStrategy } from './ accessToken.strategy';
 import { UserService } from '../user/user.service';
 import { RefreshTokenStrategy } from './refreshToken.strategy';
 import { PrismaModule } from '../prisma/prisma.module';
+import { GoogleStrategy } from './google.strategy';
 
 @Module({
   imports: [ConfigModule, PassportModule, JwtModule.register({}), PrismaModule],
@@ -16,6 +17,7 @@ import { PrismaModule } from '../prisma/prisma.module';
     UserService,
     AccessTokenStrategy,
     RefreshTokenStrategy,
+    GoogleStrategy,
   ],
   exports: [AuthService, JwtModule],
 })
