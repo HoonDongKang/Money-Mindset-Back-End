@@ -174,6 +174,7 @@ export class UserController {
   @Get('/google/callback')
   googleAuthRedirect(@Req() req) {
     // 인증 완료시 여기로 정보가 보내짐
+    // jwt 생성 로직 필요
     return this.authService.googleLogin(req);
   }
 
