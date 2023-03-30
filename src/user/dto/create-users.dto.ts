@@ -12,7 +12,7 @@ export class CreateUserDto {
   @IsString()
   @IsOptional()
   @ApiProperty({ name: 'password', required: false })
-  password: string;
+  password?: string;
 
   @IsString()
   @IsNotEmpty()
@@ -22,5 +22,5 @@ export class CreateUserDto {
   @IsString()
   @IsOptional()
   @ApiProperty({ name: 'refresh token' })
-  refreshToken: string;
+  refreshToken?: string;
 }

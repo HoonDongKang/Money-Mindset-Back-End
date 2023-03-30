@@ -148,7 +148,7 @@ export class UserController {
   })
   @Post('/signin')
   async signin(@Body() loginDto: LoginDto, @Res() res: Response) {
-    const { refreshToken, IsEqual, accessToken } =
+    const { refreshToken, isEqual, accessToken } =
       await this.authService.signin(loginDto);
     res.cookie('refresh_token', refreshToken, {
       httpOnly: true,
@@ -157,7 +157,7 @@ export class UserController {
       path: '/',
     });
     return res.send({
-      IsEqual,
+      isEqual,
       accessToken,
       refreshToken,
     });

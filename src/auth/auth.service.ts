@@ -26,8 +26,8 @@ export class AuthService {
   }
 
   async bcryptCompare(data: string, hashedData: string) {
-    const IsEqual = await bcyrpt.compare(data, hashedData);
-    return IsEqual;
+    const isEqual = await bcyrpt.compare(data, hashedData);
+    return isEqual;
   }
 
   // After verifying email, if there's no email in use
@@ -53,13 +53,16 @@ export class AuthService {
   }
 
   async signin(logindto: LoginDto) {
+    let isEqual = true;
     const { email, password } = logindto;
     const user = await this.prisma.user.findUnique({ where: { email } });
     if (!user) {
       throw new BadRequestException('Invalid Email');
     }
-    const IsEqual = await this.bcryptCompare(password, user.password);
-    if (!IsEqual) {
+    if (password) {
+      isEqual = await this.bcryptCompare(password, user.password);
+    }
+    if (!isEqual) {
       throw new BadRequestException('Invalid PW');
     } else {
       const { accessToken } = this.generateAccessToken({
@@ -70,7 +73,7 @@ export class AuthService {
       const { refreshToken } = this.generateRefreshToken(user.idx);
       await this.userService.updateUserByIdx(user.idx, { refreshToken });
       return {
-        IsEqual,
+        isEqual,
         accessToken,
         refreshToken,
       };
@@ -121,12 +124,13 @@ export class AuthService {
   }
 
   async googleLogin(req) {
+    const { info } = req;
     if (!req.user) {
       return 'No user from google';
     }
     return {
       message: 'User Info from Google',
-      user: req.user,
+      info: req.user,
     };
   }
 }
