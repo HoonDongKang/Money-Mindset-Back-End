@@ -7,6 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { UserDto } from './../user/dto/user.dto';
 import { UserService } from './../user/user.service';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -32,12 +33,13 @@ export class AuthService {
   // After verifying email, if there's no email in use
   async signup(createUserDto: CreateUserDto) {
     const { email, nickname, password } = createUserDto;
-    const hashedPassword = await this.bcryptHashed(password);
-    const user = await this.userService.createUser(
-      email,
-      nickname,
-      hashedPassword,
-    );
+    let user: Partial<User>;
+    if (password) {
+      const hashedPassword = await this.bcryptHashed(password);
+      user = await this.userService.createUser(email, nickname, hashedPassword);
+    } else {
+      user = await this.userService.createUser(email, nickname);
+    }
 
     const { accessToken } = this.generateAccessToken({
       idx: user.idx,

@@ -165,14 +165,14 @@ export class UserController {
 
   @UseGuards(GoogleAuthGuard)
   @Get('/google/login')
-  googleAuth(@Req() req, @Res() res) {
+  googleAuth(@Req() req: Request) {
     //여기로 접속하면
     return { msg: 'Google Authentication' };
   }
 
   @UseGuards(GoogleAuthGuard)
   @Get('/google/callback')
-  googleAuthRedirect(@Req() req) {
+  googleAuthRedirect(@Req() req: Request) {
     // 인증 완료시 여기로 정보가 보내짐
     // jwt 생성 로직 필요
     return this.authService.googleLogin(req);

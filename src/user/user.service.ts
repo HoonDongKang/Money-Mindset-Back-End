@@ -21,7 +21,7 @@ export class UserService {
     return this.prisma.user.findMany();
   }
 
-  async createUser(email: string, nickname: string, password: string) {
+  async createUser(email: string, nickname: string, password?: string) {
     const user = await this.prisma.user.create({
       data: { email, nickname, password },
     });
