@@ -124,13 +124,12 @@ export class AuthService {
   }
 
   async googleLogin(req) {
-    const { info } = req;
-    if (!req.user) {
-      return 'No user from google';
-    }
+    const { email, nickname, refreshToken, accessToken } = req.user;
     return {
-      message: 'User Info from Google',
-      info: req.user,
+      email,
+      nickname,
+      refreshToken,
+      accessToken,
     };
   }
 }

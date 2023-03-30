@@ -172,10 +172,25 @@ export class UserController {
 
   @UseGuards(GoogleAuthGuard)
   @Get('/google/callback')
-  googleAuthRedirect(@Req() req: Request) {
+  async googleAuthRedirect(@Req() req: Request, @Res() res: Response) {
     // 인증 완료시 여기로 정보가 보내짐
     // jwt 생성 로직 필요
-    return this.authService.googleLogin(req);
+    const { email, nickname, refreshToken, accessToken } =
+      await this.authService.googleLogin(req);
+    res.cookie('refresh_token', refreshToken, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000, //7d,
+      sameSite: 'lax',
+      path: '/',
+    });
+    res.send({
+      user: {
+        email,
+        nickname,
+      },
+      refreshToken,
+      accessToken,
+    });
   }
 
   @ApiOperation({
