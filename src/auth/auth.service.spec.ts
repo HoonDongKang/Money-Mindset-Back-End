@@ -1,12 +1,10 @@
 import { Test } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
-import { ConfigService, ConfigModule } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { PrismaService } from './../prisma/prisma.service';
-import { JwtService, JwtModule } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { User } from '@prisma/client';
-import { AccessTokenStrategy } from './ accessToken.strategy';
-import { RefreshTokenStrategy } from './refreshToken.strategy';
 
 describe('AuthService', () => {
   let service: AuthService;

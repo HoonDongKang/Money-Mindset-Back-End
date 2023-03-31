@@ -11,7 +11,6 @@ import {
   Res,
   Request,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from '../auth/auth.service';
@@ -24,7 +23,6 @@ import { UserDto } from './dto/user.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Response, Request as expReq } from 'express';
 import { JwtRefreshAuthGuard } from '../auth/refresh-jwt-auth.guard';
-import { AuthGuard } from '@nestjs/passport';
 import { GoogleAuthGuard } from 'src/auth/google-auth.guard';
 
 @Controller('user')
