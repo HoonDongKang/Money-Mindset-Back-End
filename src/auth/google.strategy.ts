@@ -32,8 +32,10 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       email: emails[0].value,
       nickname: displayName,
     };
-    const isDuplicate = await this.userService.checkEmailDuplicate(user.email);
-    if (!isDuplicate) {
+    const { isExisted } = await this.userService.checkEmailDuplicate(
+      user.email,
+    );
+    if (!isExisted) {
       ({ accessToken, refreshToken } = await this.authService.signup({
         email: user.email,
         nickname: user.nickname,
