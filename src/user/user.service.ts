@@ -47,9 +47,7 @@ export class UserService {
   async checkEmailDuplicate(email: string) {
     let isExisted = true;
     const user = await this.prisma.user.findFirst({ where: { email } });
-    console.log(user);
     user === null ? (isExisted = false) : (isExisted = true);
-    console.log(isExisted);
     return { isExisted };
   }
 
