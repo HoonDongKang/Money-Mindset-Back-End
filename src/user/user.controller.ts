@@ -40,13 +40,6 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @Get('/google')
-  atagForGoogle(@Res() res: Response, @Request() req) {
-    //res.send('<a href="/user/google/login ">hello</a>');
-    console.log(req);
-    res.send(req.user);
-  }
-
   @ApiOperation({ summary: 'get profile from jwt' })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
@@ -180,25 +173,14 @@ export class UserController {
   async googleAuthRedirect(@Req() req, @Res() res: Response) {
     // 인증 완료시 여기로 정보가 보내짐
     // jwt 생성 로직 필요
-    console.log(req.user);
-    res.send('god');
-    // const { email, nickname, refreshToken, accessToken } =
-    //   await this.authService.googleLogin(req);
-    // res.cookie('refresh_token', refreshToken, {
-    //   httpOnly: true,
-    //   maxAge: 7 * 24 * 60 * 60 * 1000, //7d,
-    //   sameSite: 'lax',
-    //   path: '/',
-    // });
-    // res.redirect(`http://localhost:3714/user/google`);
-    // res.send({
-    //   user: {
-    //     email,
-    //     nickname,
-    //   },
-    //   refreshToken,
-    //   accessToken,
-    // });
+    const { refreshToken } = req.user;
+    res.cookie('refresh_token', refreshToken, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000, //7d,
+      sameSite: 'lax',
+      path: '/',
+    });
+    res.redirect(`http://localhost:3000/`);
   }
 
   @ApiOperation({
