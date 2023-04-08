@@ -13,9 +13,55 @@ datasource db {
 model User{
   idx  Int   @id @default(autoincrement())
   email String  @unique
-  password  String?  
+  password  String?
   nickname String @unique
   refreshToken String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  maginot Maginot[]
+  asset Asset[]
+  income_Expense Income_Expense[]
+  expenditure Expenditure[] @relation("userExpenditure")
+}
+
+model Maginot{
+  idx  Int   @id @default(autoincrement())
+  user User @relation(fields:[user_idx], references:[idx])
+  user_idx Int
+  ranking Int
+  goal String
+  amount Int
+  line Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Asset{
+  idx  Int   @id @default(autoincrement())
+  user User @relation(fields:[user_idx], references:[idx])
+  user_idx Int
+  amount Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  expenditure Expenditure? @relation("userAsset")
+}
+model Expenditure{
+  idx  Int   @id @default(autoincrement())
+  user User @relation("userExpenditure",fields:[user_idx], references:[idx])
+  user_idx Int
+  asset Asset @relation("userAsset",fields:[asset_idx], references:[idx]) 
+  asset_idx Int @unique
+  fixed_expenditure String
+  expenditure_amount Int
+}
+
+model Income_Expense{
+  idx  Int   @id @default(autoincrement())
+  user User @relation(fields:[user_idx], references:[idx])
+  user_idx Int
+  type String
+  category String
+  amount Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
