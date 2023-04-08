@@ -160,7 +160,10 @@ export class UserController {
       refreshToken,
     });
   }
-
+  @ApiOperation({
+    summary: `Google login`,
+    description: `Redirect to Google login page`,
+  })
   @UseGuards(GoogleAuthGuard)
   @Get('/google/login')
   googleAuth(@Req() req: Request) {
@@ -168,6 +171,10 @@ export class UserController {
     return { msg: 'Google Authentication' };
   }
 
+  @ApiOperation({
+    summary: `Google login redirect page`,
+    description: `After login successes, redirect to localhost:3000`,
+  })
   @UseGuards(GoogleAuthGuard)
   @Get('/google/callback')
   async googleAuthRedirect(@Req() req, @Res() res: Response) {
