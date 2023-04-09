@@ -19,9 +19,8 @@ model User{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   maginot Maginot[]
-  asset Asset[]
+  asset Asset?
   income_Expense Income_Expense[]
-  expenditure Expenditure[] @relation("userExpenditure")
 }
 
 model Maginot{
@@ -39,18 +38,16 @@ model Maginot{
 model Asset{
   idx  Int   @id @default(autoincrement())
   user User @relation(fields:[user_idx], references:[idx])
-  user_idx Int
+  user_idx Int @unique
   amount Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  expenditure Expenditure? @relation("userAsset")
+  expenditure Expenditure[] @relation("userAsset")
 }
 model Expenditure{
   idx  Int   @id @default(autoincrement())
-  user User @relation("userExpenditure",fields:[user_idx], references:[idx])
-  user_idx Int
-  asset Asset @relation("userAsset",fields:[asset_idx], references:[idx]) 
-  asset_idx Int @unique
+  asset Asset @relation("userAsset",fields:[asset_idx], references:[idx])
+  asset_idx Int
   fixed_expenditure String
   expenditure_amount Int
 }

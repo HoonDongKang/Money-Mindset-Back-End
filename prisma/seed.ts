@@ -3,22 +3,39 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  const firstSeed = await prisma.user.upsert({
+  const fistUser = await prisma.user.upsert({
     where: { email: 'First Email' },
     update: {},
     create: {
       email: 'First Email',
       password: 'First password',
       nickname: 'First Nickname',
-    },
-  });
-  const secondSeed = await prisma.user.upsert({
-    where: { email: 'Second email' },
-    update: {},
-    create: {
-      email: 'Second Email',
-      password: 'Second password',
-      nickname: 'Second Nickname',
+      maginot: {
+        create: {
+          ranking: 1,
+          goal: 'mac',
+          amount: 1000,
+          line: 1,
+        },
+      },
+      asset: {
+        create: {
+          amount: 100000,
+          expenditure: {
+            create: {
+              fixed_expenditure: 'food',
+              expenditure_amount: 100,
+            },
+          },
+        },
+      },
+      income_Expense: {
+        create: {
+          type: 'income',
+          category: 'salary',
+          amount: 1000,
+        },
+      },
     },
   });
 }
