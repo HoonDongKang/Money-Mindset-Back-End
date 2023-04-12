@@ -28,7 +28,7 @@ export class AssetService {
   async findAssetByUserIdx(user_idx: number) {
     await this.userService.findOneByIdx(user_idx);
     const asset = await this.prisma.asset.findFirst({
-      where: { idx: user_idx },
+      where: { user_idx },
     });
     if (!asset) {
       throw new NotFoundException(
@@ -51,7 +51,7 @@ export class AssetService {
   async updateAsset(user_idx: number, amount: number) {
     await this.findAssetByUserIdx(user_idx);
     const asset = await this.prisma.asset.update({
-      where: { idx: user_idx },
+      where: { user_idx },
       data: { amount },
     });
     return asset;
@@ -60,7 +60,7 @@ export class AssetService {
   async deleteAsset(user_idx: number) {
     await this.findAssetByUserIdx(user_idx);
     const asset = await this.prisma.asset.delete({
-      where: { idx: user_idx },
+      where: { user_idx },
     });
     return asset;
   }
