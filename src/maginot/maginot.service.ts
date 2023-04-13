@@ -28,7 +28,7 @@ export class MaginotService {
     const maginot = await this.prisma.maginot.findMany({
       where: { user_idx },
     });
-    if (!maginot) {
+    if (maginot.length === 0) {
       throw new NotFoundException(
         `User number ${user_idx} doesn't have an maginot.`,
       );
