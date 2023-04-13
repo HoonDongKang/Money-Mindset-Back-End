@@ -55,6 +55,7 @@ export class MaginotService {
     idx: number,
     updateMaginotDto: Partial<CreateMaginotDto>,
   ) {
+    await this.findByIdx(idx);
     if (updateMaginotDto.ranking) {
       Object.assign(updateMaginotDto, { line: updateMaginotDto.ranking });
     }

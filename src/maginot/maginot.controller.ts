@@ -11,6 +11,7 @@ import {
 import { MaginotService } from './maginot.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateMaginotDto } from './dto/create-maginot.dto';
+import { UpdateMaginotDto } from './dto/update-maginot.dto';
 
 @ApiTags('maginot')
 @Controller('maginot')
@@ -48,7 +49,7 @@ export class MaginotController {
   @Patch('/:idx')
   updateMaginot(
     @Param('idx', ParseIntPipe) idx: number,
-    @Body() updateMaginotDto: Partial<CreateMaginotDto>,
+    @Body() updateMaginotDto: UpdateMaginotDto,
   ) {
     return this.maginotService.updateMaginot(idx, updateMaginotDto);
   }
