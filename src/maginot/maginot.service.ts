@@ -11,11 +11,28 @@ export class MaginotService {
   ) {}
 
   findAll() {
-    return this.prisma.maginot.findMany();
+    return this.prisma.maginot.findMany({
+      include: {
+        user: {
+          select: {
+            email: true,
+            nickname: true,
+          },
+        },
+      },
+    });
   }
   async findByIdx(idx: number) {
     const maginot = await this.prisma.maginot.findFirst({
       where: { idx },
+      include: {
+        user: {
+          select: {
+            email: true,
+            nickname: true,
+          },
+        },
+      },
     });
     if (!maginot) {
       throw new NotFoundException(`Maginot number ${idx} doesn't exist.`);

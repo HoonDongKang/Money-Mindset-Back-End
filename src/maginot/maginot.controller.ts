@@ -12,8 +12,11 @@ import { MaginotService } from './maginot.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateMaginotDto } from './dto/create-maginot.dto';
 import { UpdateMaginotDto } from './dto/update-maginot.dto';
+import { Serialize } from '../interceptors/serialize.interceptor';
+import { UserMaginotDto } from './dto/user-maginot.dto';
 
 @ApiTags('maginot')
+@Serialize(UserMaginotDto)
 @Controller('maginot')
 export class MaginotController {
   constructor(private maginotService: MaginotService) {}

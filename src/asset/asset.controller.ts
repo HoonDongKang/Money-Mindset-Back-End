@@ -26,6 +26,12 @@ export class AssetController {
     return this.assetSevice.findAll();
   }
 
+  @ApiOperation({ summary: `Get user's Asset` })
+  @Get('/:user_idx')
+  getUserAsset(@Param('user_idx', ParseIntPipe) user_idx: number) {
+    return this.assetSevice.findAssetByUserIdx(user_idx);
+  }
+
   @ApiOperation({ summary: `Create new asset on a user ` })
   @Post('/:user_idx')
   createAsset(

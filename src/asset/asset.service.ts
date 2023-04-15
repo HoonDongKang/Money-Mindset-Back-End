@@ -12,9 +12,7 @@ export class AssetService {
 
   findAll() {
     return this.prisma.asset.findMany({
-      select: {
-        idx: true,
-        amount: true,
+      include: {
         user: {
           select: {
             email: true,
@@ -29,6 +27,14 @@ export class AssetService {
     await this.userService.findOneByIdx(user_idx);
     const asset = await this.prisma.asset.findFirst({
       where: { user_idx },
+      include: {
+        user: {
+          select: {
+            email: true,
+            nickname: true,
+          },
+        },
+      },
     });
     if (!asset) {
       throw new NotFoundException(
