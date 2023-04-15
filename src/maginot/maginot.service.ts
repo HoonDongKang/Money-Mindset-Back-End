@@ -44,6 +44,14 @@ export class MaginotService {
     await this.userService.findOneByIdx(user_idx);
     const maginot = await this.prisma.maginot.findMany({
       where: { user_idx },
+      include: {
+        user: {
+          select: {
+            email: true,
+            nickname: true,
+          },
+        },
+      },
     });
     if (maginot.length === 0) {
       throw new NotFoundException(

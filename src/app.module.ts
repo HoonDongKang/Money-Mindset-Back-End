@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { AssetModule } from './asset/asset.module';
 import { MaginotModule } from './maginot/maginot.module';
+import { ExpenditureService } from './asset/expenditure.service';
+import { ExpenditureModule } from './asset/expenditure.module';
 
 @Module({
   imports: [
@@ -18,6 +20,7 @@ import { MaginotModule } from './maginot/maginot.module';
     }),
     AssetModule,
     MaginotModule,
+    ExpenditureModule,
   ],
   controllers: [AppController, UserController],
   providers: [AppService],
