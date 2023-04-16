@@ -1,7 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class CreateExpenditureDto {
+export class UpdateExpenditureDto {
+  @ApiProperty({ name: 'user_idx', example: '1' })
+  @IsOptional()
+  @IsNumber()
+  user_idx?: number;
+
   @ApiProperty({ name: 'fixed_expenditure', example: 'food' })
   @IsString()
   fixed_expenditure: string;

@@ -2,27 +2,30 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserService } from '../user/user.service';
 import { CreateExpenditureDto } from './dto/create-expenditure.dto';
+import { AssetService } from './asset.service';
+import { UpdateExpenditureDto } from './dto/update-expenditure.dto';
 
 @Injectable()
 export class ExpenditureService {
   constructor(
     private prisma: PrismaService,
     private userService: UserService,
+    private assetService: AssetService,
   ) {}
 
   findAll() {
     return this.prisma.expenditure.findMany({
       include: {
-        asset: {
-          select: {
-            amount: true,
-          },
-        },
         user: {
           select: {
             idx: true,
             email: true,
             nickname: true,
+            asset: {
+              select: {
+                amount: true,
+              },
+            },
           },
         },
       },
@@ -33,16 +36,16 @@ export class ExpenditureService {
     const expenditure = await this.prisma.expenditure.findFirst({
       where: { idx },
       include: {
-        asset: {
-          select: {
-            amount: true,
-          },
-        },
         user: {
           select: {
             idx: true,
             email: true,
             nickname: true,
+            asset: {
+              select: {
+                amount: true,
+              },
+            },
           },
         },
       },
@@ -58,16 +61,16 @@ export class ExpenditureService {
     const expenditure = await this.prisma.expenditure.findMany({
       where: { user_idx },
       include: {
-        asset: {
-          select: {
-            amount: true,
-          },
-        },
         user: {
           select: {
             idx: true,
             email: true,
             nickname: true,
+            asset: {
+              select: {
+                amount: true,
+              },
+            },
           },
         },
       },
@@ -82,7 +85,6 @@ export class ExpenditureService {
 
   async createExpenditure(
     user_idx: number,
-    asset_idx: number,
     createExpenditureDto: CreateExpenditureDto,
   ) {
     // const maginots = await this.findMiginotbyUserIdx(user_idx);
@@ -90,7 +92,6 @@ export class ExpenditureService {
     const expenditure = await this.prisma.expenditure.create({
       data: {
         user_idx,
-        asset_idx,
         expenditure_amount,
         fixed_expenditure,
       },
@@ -98,21 +99,16 @@ export class ExpenditureService {
     return expenditure;
   }
 
-  // async updateExpenditure(
-  //   user_idx: number,
-  //   asset_idx: number,
-  //   createExpenditureDto: CreateExpenditureDto,
-  // ) {
-  //   // const maginots = await this.findMiginotbyUserIdx(user_idx);
-  //   const { expenditure_amount, fixed_expenditure } = createExpenditureDto;
-  //   const expenditure = await this.prisma.expenditure.create({
-  //     data: {
-  //       user_idx,
-  //       asset_idx,
-  //       expenditure_amount,
-  //       fixed_expenditure,
-  //     },
-  //   });
-  //   return expenditure;
-  // }
+  async updateExpenditure(
+    idx: number,
+    updateExpenditureDto: UpdateExpenditureDto,
+  ) {
+    await this.findExpenditureByIdx(idx);
+    // const { user_idx, asset_idx, expenditure_amount, fixed_expenditure } =
+    //   updateExpenditureDto;
+    return this.prisma.expenditure.update({
+      where: { idx },
+      data: updateExpenditureDto,
+    });
+  }
 }

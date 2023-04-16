@@ -21,12 +21,12 @@ async function main() {
       asset: {
         create: {
           amount: 100000,
-          expenditure: {
-            create: {
-              fixed_expenditure: 'food',
-              expenditure_amount: 100,
-            },
-          },
+        },
+      },
+      expenditure: {
+        create: {
+          fixed_expenditure: 'food',
+          expenditure_amount: 100,
         },
       },
       income_Expense: {

@@ -3,10 +3,11 @@ import { AssetController } from './asset.controller';
 import { AssetService } from './asset.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserModule } from '../user/user.module';
+import { ExpenditureService } from './expenditure.service';
 
 @Module({
   controllers: [AssetController],
   imports: [UserModule],
-  providers: [AssetService, PrismaService],
+  providers: [AssetService, PrismaService, ExpenditureService],
 })
 export class AssetModule {}
