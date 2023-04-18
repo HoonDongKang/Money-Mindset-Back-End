@@ -15,6 +15,7 @@ import { CreateAssetDto } from './dto/create-asset.dto';
 import { AssetDto } from './dto/user-asset.dto';
 import { ExpenditureService } from './expenditure.service';
 import { CreateExpenditureDto } from './dto/create-expenditure.dto';
+import { UpdateExpenditureDto } from './dto/update-expenditure.dto';
 
 @ApiTags('asset')
 @Serialize(AssetDto)
@@ -93,5 +94,20 @@ export class AssetController {
       user_idx,
       createExpenditureDto,
     );
+  }
+
+  @ApiOperation({ summary: `Update Expenditure` })
+  @Patch('/expenditure/:idx')
+  updateExpenditure(
+    @Param('idx', ParseIntPipe) idx: number,
+    @Body() updateExpenditureDto: UpdateExpenditureDto,
+  ) {
+    return this.expenditureService.updateExpenditure(idx, updateExpenditureDto);
+  }
+
+  @ApiOperation({ summary: `Delete Expenditure` })
+  @Delete('/expenditure/:idx')
+  deleteExpenditure(@Param('idx', ParseIntPipe) idx: number) {
+    return this.expenditureService.deleteExpenditure(idx);
   }
 }

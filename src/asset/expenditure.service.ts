@@ -104,11 +104,16 @@ export class ExpenditureService {
     updateExpenditureDto: UpdateExpenditureDto,
   ) {
     await this.findExpenditureByIdx(idx);
-    // const { user_idx, asset_idx, expenditure_amount, fixed_expenditure } =
-    //   updateExpenditureDto;
     return this.prisma.expenditure.update({
       where: { idx },
       data: updateExpenditureDto,
+    });
+  }
+
+  async deleteExpenditure(idx: number) {
+    await this.findExpenditureByIdx(idx);
+    return this.prisma.expenditure.delete({
+      where: { idx },
     });
   }
 }
