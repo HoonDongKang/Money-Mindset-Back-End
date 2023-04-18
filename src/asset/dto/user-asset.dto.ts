@@ -10,4 +10,7 @@ export class AssetDto {
 
   @Expose()
   user: UserDto;
+
+  @Expose()
+  fixedExpenditureAmout?: number;
 }
