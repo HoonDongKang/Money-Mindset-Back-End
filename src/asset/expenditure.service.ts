@@ -88,12 +88,14 @@ export class ExpenditureService {
     createExpenditureDto: CreateExpenditureDto,
   ) {
     // const maginots = await this.findMiginotbyUserIdx(user_idx);
-    const { expenditure_amount, fixed_expenditure } = createExpenditureDto;
+    const { expenditure_amount, fixed_expenditure, expenditure_date } =
+      createExpenditureDto;
     const expenditure = await this.prisma.expenditure.create({
       data: {
         user_idx,
         expenditure_amount,
         fixed_expenditure,
+        expenditure_date,
       },
     });
     return expenditure;

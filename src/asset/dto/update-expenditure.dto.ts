@@ -14,4 +14,8 @@ export class UpdateExpenditureDto {
   @ApiProperty({ name: 'expenditure_amount', example: 1000 })
   @IsNumber()
   expenditure_amount: number;
+
+  @ApiProperty({ name: 'expenditure_date', example: '15' })
+  @IsString()
+  expenditure_date: string;
 }

@@ -50,6 +50,7 @@ model Expenditure{
   user_idx Int
   fixed_expenditure String
   expenditure_amount Int
+  expenditure_date String
 }
 
 model Income_Expense{

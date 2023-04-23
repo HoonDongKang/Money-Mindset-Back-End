@@ -27,6 +27,7 @@ async function main() {
         create: {
           fixed_expenditure: 'food',
           expenditure_amount: 100,
+          expenditure_date: '15',
         },
       },
       income_Expense: {
