@@ -10,7 +10,6 @@ export class ExpenditureService {
   constructor(
     private prisma: PrismaService,
     private userService: UserService,
-    private assetService: AssetService,
   ) {}
 
   findAll() {

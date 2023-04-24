@@ -2,6 +2,20 @@ import { Expose } from 'class-transformer';
 import { UserDto } from '../../user/dto/user.dto';
 
 export class AssetDto {
+  //Fixed_Expenditure
+  @Expose()
+  idx: number;
+
+  @Expose()
+  fixed_expenditure: string;
+
+  @Expose()
+  expenditure_amount: number;
+
+  @Expose()
+  expenditure_date: string;
+
+  //Asset
   @Expose()
   user_idx: number;
 
@@ -12,5 +26,5 @@ export class AssetDto {
   user: UserDto;
 
   @Expose()
-  fixedExpenditureAmout?: number;
+  fixedExpenditureAmount?: number;
 }
