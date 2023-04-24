@@ -9,7 +9,7 @@ import { AssetModule } from './asset/asset.module';
 import { MaginotModule } from './maginot/maginot.module';
 import { ExpenditureService } from './asset/expenditure.service';
 import { ExpenditureModule } from './asset/expenditure.module';
-import { MoneyFlowModule } from './money-flow/money-flow.module';
+import { FlowModule } from './fllow/flow.module';
 
 @Module({
   imports: [
@@ -22,7 +22,7 @@ import { MoneyFlowModule } from './money-flow/money-flow.module';
     AssetModule,
     MaginotModule,
     ExpenditureModule,
-    MoneyFlowModule,
+    FlowModule,
   ],
   controllers: [AppController, UserController],
   providers: [AppService],

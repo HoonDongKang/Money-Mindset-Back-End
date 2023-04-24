@@ -30,10 +30,9 @@ async function main() {
           expenditure_date: '15',
         },
       },
-      income_Expense: {
+      flow: {
         create: {
-          type: 'income',
-          category: 'salary',
+          flow_id: 1,
           amount: 1000,
         },
       },

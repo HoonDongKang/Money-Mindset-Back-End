@@ -21,7 +21,7 @@ model User{
   maginot Maginot[]
   expenditure Expenditure[]
   asset Asset?
-  income_Expense Income_Expense[]
+  flow Flow[]
 }
 
 model Maginot{
@@ -53,12 +53,11 @@ model Expenditure{
   expenditure_date String
 }
 
-model Income_Expense{
+model Flow{
   idx  Int   @id @default(autoincrement())
   user User @relation(fields:[user_idx], references:[idx])
   user_idx Int
-  type String
-  category String
+  flow_id Int
   amount Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
