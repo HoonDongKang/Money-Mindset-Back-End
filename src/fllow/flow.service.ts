@@ -11,7 +11,10 @@ export class FlowService {
   }
 
   // get
+  // /flow/user/{user_idx}
   // 유저 월 별 수입지출 항목
+  // category 별 총합
+  // 수입, 지출 별 총합
 
   // post
   // 유저 수입지출 create
@@ -23,6 +26,6 @@ export class FlowService {
   // flow idx로 flow delete
 
   getAllFlows() {
-    return this.prisma.flow.find;
+    // return this.prisma.flow.find;
   }
 }
