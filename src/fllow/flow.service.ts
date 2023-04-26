@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { flowCategory } from './flowCategory';
+import { CreateFlowDto } from './dto/create-flow.dto';
 
 @Injectable()
 export class FlowService {
@@ -8,6 +9,28 @@ export class FlowService {
 
   getCategory() {
     return flowCategory;
+  }
+
+  async getUserflows() {
+    const flows = await this.prisma.flow.findMany({
+      where: {
+        flow_date: { gte: '2023-04-26' },
+      },
+    });
+  }
+
+  async createFlow(user_idx: number, createFlowDto: CreateFlowDto) {
+    //userIdx 검사 필요
+    const { amount, flow_date, flow_id } = createFlowDto;
+    const date = new Date(flow_date);
+    return await this.prisma.flow.create({
+      data: {
+        user_idx,
+        amount,
+        flow_date: date,
+        flow_id,
+      },
+    });
   }
 
   // get
