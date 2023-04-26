@@ -12,9 +12,9 @@ export class FlowService {
   }
 
   async getUserflows() {
-    const flows = await this.prisma.flow.findMany({
+    return await this.prisma.flow.findMany({
       where: {
-        flow_date: { gte: '2023-04-26' },
+        flow_date: { gte: new Date('2023-03-25') },
       },
     });
   }

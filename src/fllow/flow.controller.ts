@@ -25,6 +25,13 @@ export class FlowController {
     return flowCategory;
   }
 
+  @Get('/test')
+  // param : userIdx, Date
+  // 해당 월의 데이터만 출력
+  getTest() {
+    return this.FlowService.getUserflows();
+  }
+
   @Post('/:user_idx')
   createUserFlow(
     @Param('user_idx', ParseIntPipe) user_idx: number,
