@@ -59,6 +59,7 @@ model Flow{
   user_idx Int
   flow_id Int
   amount Int
+  flow_date DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

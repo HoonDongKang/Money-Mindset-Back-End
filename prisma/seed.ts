@@ -34,6 +34,7 @@ async function main() {
         create: {
           flow_id: 1,
           amount: 1000,
+          flow_date: new Date('2023-04-26'),
         },
       },
     },
