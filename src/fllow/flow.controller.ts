@@ -5,6 +5,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PrismaService } from '../prisma/prisma.service';
@@ -25,11 +26,16 @@ export class FlowController {
     return flowCategory;
   }
 
-  @Get('/test')
+  @Get('/:user_idx')
   // param : userIdx, Date
   // 해당 월의 데이터만 출력
-  getTest() {
-    return this.FlowService.getUserflows();
+  getTest(
+    @Param('user_idx', ParseIntPipe) user_idx: number,
+    @Query('start_date', ParseIntPipe) start_date: number,
+    @Query('end_date', ParseIntPipe) end_date: number,
+  ) {
+    //new Date('yyyy-mm-dd').getTime() => millis
+    return this.FlowService.getUserflows(user_idx, start_date, end_date);
   }
 
   @Post('/:user_idx')

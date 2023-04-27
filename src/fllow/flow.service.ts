@@ -11,10 +11,11 @@ export class FlowService {
     return flowCategory;
   }
 
-  async getUserflows() {
+  async getUserflows(user_idx: number, start_date: number, end_date: number) {
     return await this.prisma.flow.findMany({
       where: {
-        flow_date: { gte: new Date('2023-03-25') },
+        user_idx,
+        flow_date: { gte: new Date(start_date), lte: new Date(end_date) },
       },
     });
   }
