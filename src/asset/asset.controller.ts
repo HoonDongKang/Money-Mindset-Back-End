@@ -38,17 +38,22 @@ export class AssetController {
   async getUserAsset(@Param('user_idx', ParseIntPipe) user_idx: number) {
     let expenditureAmount = 0;
     const userAsset = await this.assetSevice.findAssetByUserIdx(user_idx);
-    const fixedExpenditures = await this.expenditureService.findByUserIdx(
-      user_idx,
-    );
-    //amount of fixed expenditure
-    for (const expenditure of fixedExpenditures) {
-      expenditureAmount += expenditure.expenditure_amount;
-    }
 
-    return Object.assign(userAsset, {
-      fixedExpenditureAmount: expenditureAmount,
-    });
+    try {
+      const fixedExpenditures = await this.expenditureService.findByUserIdx(
+        user_idx,
+      );
+      //amount of fixed expenditure
+      for (const expenditure of fixedExpenditures) {
+        expenditureAmount += expenditure.expenditure_amount;
+      }
+
+      return Object.assign(userAsset, {
+        fixedExpenditureAmount: expenditureAmount,
+      });
+    } catch (e) {
+      return userAsset;
+    }
   }
 
   @ApiOperation({ summary: `Create new asset on a user ` })
