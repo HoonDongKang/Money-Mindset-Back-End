@@ -7,15 +7,15 @@ import { CreateFlowDto } from './dto/create-flow.dto';
 export class FlowService {
   constructor(private prisma: PrismaService) {}
 
-  flowIdtoName(arr: any) {
+  flowIdtoName(flowArr: any) {
     for (const category of flowCategory) {
-      for (const test of arr) {
-        if (category.id === test.id) {
-          test['name'] = category.name;
+      for (const flow of flowArr) {
+        if (category.id === flow.id) {
+          Object.assign(flow, { name: category.name });
         }
       }
     }
-    return arr;
+    return flowArr;
   }
 
   async getUserflows(user_idx: number, start_date: number, end_date: number) {
