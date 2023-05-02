@@ -9,7 +9,7 @@ import { AssetModule } from './asset/asset.module';
 import { MaginotModule } from './maginot/maginot.module';
 import { ExpenditureService } from './asset/expenditure.service';
 import { ExpenditureModule } from './asset/expenditure.module';
-import { FlowModule } from './fllow/flow.module';
+import { FlowModule } from './flow/flow.module';
 
 @Module({
   imports: [

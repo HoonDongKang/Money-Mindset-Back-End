@@ -23,7 +23,19 @@ export class FlowController {
 
   @Get()
   getCategory() {
-    return flowCategory;
+    const arr = [
+      {
+        id: 1,
+      },
+      {
+        id: 4,
+      },
+      {
+        id: 13,
+      },
+    ];
+    return this.FlowService.flowIdtoName(arr);
+    // return flowCategory;
   }
 
   @Get('/:user_idx')
