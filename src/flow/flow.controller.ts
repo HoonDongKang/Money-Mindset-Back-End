@@ -15,6 +15,8 @@ import { FlowService } from './flow.service';
 import { flowCategory } from './flowCategory';
 import { CreateFlowDto } from './dto/create-flow.dto';
 import { UpdateFlowDto } from './dto/update-flow.dto';
+import { Serialize } from '../interceptors/serialize.interceptor';
+import { UserFlowDto } from './dto/user-flow.dto';
 
 @ApiTags('flow')
 @Controller('flow')
@@ -30,6 +32,7 @@ export class FlowController {
   }
 
   @Get('user/:user_idx')
+  @Serialize(UserFlowDto)
   // param : userIdx, Date
   // 해당 월의 데이터만 출력
   async getUserFlows(
@@ -63,6 +66,7 @@ export class FlowController {
   }
 
   @Post('user/:user_idx')
+  @Serialize(UserFlowDto)
   createUserFlow(
     @Param('user_idx', ParseIntPipe) user_idx: number,
     @Body() createFlowDto: CreateFlowDto,
@@ -71,6 +75,7 @@ export class FlowController {
   }
 
   @Patch('/:idx')
+  @Serialize(UserFlowDto)
   updateUserFlow(
     @Param('idx', ParseIntPipe) idx: number,
     @Body() updateFlowDto: UpdateFlowDto,
@@ -79,6 +84,7 @@ export class FlowController {
   }
 
   @Delete('/:idx')
+  @Serialize(UserFlowDto)
   deleteUserFlow(@Param('idx', ParseIntPipe) idx: number) {
     return this.FlowService.deleteFlow(idx);
   }
