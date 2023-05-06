@@ -19,6 +19,18 @@ export class FlowService {
     return flowArr;
   }
 
+  flowDataToChartData(flowArr: any) {
+    let amountSum = 0;
+    let chartArr = [];
+    for (const flow of flowArr) {
+      amountSum += flow.amount;
+      const dayOfMonth = new Date(flow.flow_date).getDate();
+      const chartData = { x: dayOfMonth, y: amountSum };
+      chartArr = [...chartArr, chartData];
+    }
+    return chartArr;
+  }
+
   async findByIdx(idx: number) {
     const flow = await this.prisma.flow.findFirst({
       where: { idx },

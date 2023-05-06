@@ -45,6 +45,22 @@ export class FlowController {
     );
     return this.FlowService.flowIdtoName(userFlows);
   }
+  @Get('chart/:user_idx')
+  // param : userIdx, Date
+  // 해당 월의 데이터만 출력
+  async getUserFlowstoChartData(
+    @Param('user_idx', ParseIntPipe) user_idx: number,
+    @Query('start_date', ParseIntPipe) start_date: number,
+    @Query('end_date', ParseIntPipe) end_date: number,
+  ) {
+    //new Date('yyyy-mm-dd').getTime() => millis
+    const userFlows = await this.FlowService.getUserflows(
+      user_idx,
+      start_date,
+      end_date,
+    );
+    return this.FlowService.flowDataToChartData(userFlows);
+  }
 
   @Post('user/:user_idx')
   createUserFlow(
