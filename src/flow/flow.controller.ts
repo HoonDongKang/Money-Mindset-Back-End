@@ -32,13 +32,18 @@ export class FlowController {
   @Get('user/:user_idx')
   // param : userIdx, Date
   // 해당 월의 데이터만 출력
-  getTest(
+  async getUserFlows(
     @Param('user_idx', ParseIntPipe) user_idx: number,
     @Query('start_date', ParseIntPipe) start_date: number,
     @Query('end_date', ParseIntPipe) end_date: number,
   ) {
     //new Date('yyyy-mm-dd').getTime() => millis
-    return this.FlowService.getUserflows(user_idx, start_date, end_date);
+    const userFlows = await this.FlowService.getUserflows(
+      user_idx,
+      start_date,
+      end_date,
+    );
+    return this.FlowService.flowIdtoName(userFlows);
   }
 
   @Post('user/:user_idx')

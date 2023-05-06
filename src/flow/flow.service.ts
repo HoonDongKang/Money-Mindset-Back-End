@@ -37,15 +37,13 @@ export class FlowService {
   }
 
   async getUserflows(user_idx: number, start_date: number, end_date: number) {
-    const userFlows = await this.prisma.flow.findMany({
+    return await this.prisma.flow.findMany({
       where: {
         user_idx,
         flow_date: { gte: new Date(start_date), lte: new Date(end_date) },
       },
     });
-    return this.flowIdtoName(userFlows);
   }
-
   async createFlow(user_idx: number, createFlowDto: CreateFlowDto) {
     //userIdx 검사 필요
     const { amount, flow_date, flow_id } = createFlowDto;
