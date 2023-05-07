@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Query,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PrismaService } from '../prisma/prisma.service';
@@ -17,6 +18,7 @@ import { CreateFlowDto } from './dto/create-flow.dto';
 import { UpdateFlowDto } from './dto/update-flow.dto';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserFlowDto } from './dto/user-flow.dto';
+import { flowNameInterceptor } from '../interceptors/flowName.interceptor';
 
 @ApiTags('flow')
 @Controller('flow')
@@ -32,6 +34,7 @@ export class FlowController {
   }
 
   @Get('user/:user_idx')
+  @UseInterceptors(flowNameInterceptor)
   @Serialize(UserFlowDto)
   // param : userIdx, Date
   // 해당 월의 데이터만 출력
@@ -46,7 +49,8 @@ export class FlowController {
       start_date,
       end_date,
     );
-    return this.FlowService.flowIdtoName(userFlows);
+    return userFlows;
+    // return this.FlowService.flowIdtoName(userFlows);
   }
   @Get('chart/:user_idx')
   // param : userIdx, Date
