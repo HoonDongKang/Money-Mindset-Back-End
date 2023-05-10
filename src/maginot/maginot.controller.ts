@@ -32,7 +32,7 @@ export class MaginotController {
   getMaginotByIdx(@Param('idx', ParseIntPipe) idx: number) {
     return this.maginotService.findByIdx(idx);
   }
-
+  //!
   @ApiOperation({ summary: `Get the user's Maginots` })
   @Get('/user/:user_idx')
   getMaginotsByUserIdx(@Param('user_idx', ParseIntPipe) user_idx: number) {

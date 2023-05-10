@@ -94,6 +94,7 @@ export class AssetController {
     return this.expenditureService.findExpenditureByIdx(idx);
   }
 
+  //!
   @ApiOperation({ summary: `Get Expenditure by user_idx` })
   @Get('/user/:user_idx/expenditure')
   getExpenditureByUserIdx(@Param('user_idx', ParseIntPipe) user_idx: number) {

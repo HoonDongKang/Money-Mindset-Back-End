@@ -74,11 +74,6 @@ export class ExpenditureService {
         },
       },
     });
-    if (expenditure.length === 0) {
-      throw new NotFoundException(
-        `User number ${user_idx} doesn't have a fixed expenditure.`,
-      );
-    }
     return expenditure;
   }
 

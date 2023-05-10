@@ -53,11 +53,7 @@ export class MaginotService {
         },
       },
     });
-    if (maginot.length === 0) {
-      throw new NotFoundException(
-        `User number ${user_idx} doesn't have an maginot.`,
-      );
-    }
+
     return maginot;
   }
 
