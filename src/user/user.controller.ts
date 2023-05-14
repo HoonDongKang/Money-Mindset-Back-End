@@ -46,7 +46,6 @@ export class UserController {
   @Serialize(UserDto)
   @Get('/validate')
   async getProfile(@Request() req) {
-    //req user 정보 이용해서 쿠키 담기
     return req.user;
   }
 

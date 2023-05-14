@@ -22,4 +22,10 @@ export class UserMaginotDto {
 
   @Expose()
   user: UserDto;
+
+  @Expose()
+  value: number;
+
+  @Expose()
+  legend: string;
 }
