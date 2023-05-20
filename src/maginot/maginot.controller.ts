@@ -33,12 +33,6 @@ export class MaginotController {
     return this.maginotService.findByIdx(idx);
   }
 
-  @ApiOperation({ summary: `Get User's maginot marker` })
-  @Get('/marker/:user_idx')
-  getMaginotMarker(@Param('user_idx', ParseIntPipe) user_idx: number) {
-    return this.maginotService.chartMarker(user_idx);
-  }
-
   //!
   @ApiOperation({ summary: `Get the user's Maginots` })
   @Get('/user/:user_idx')

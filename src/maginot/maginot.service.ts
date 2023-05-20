@@ -57,17 +57,6 @@ export class MaginotService {
     return maginot;
   }
 
-  async chartMarker(user_idx: number) {
-    let chartMarkerList = [];
-    const maginotList = await this.findByUserIdx(user_idx);
-    for (const maginot of maginotList) {
-      const maginotMarker = { legend: maginot.goal, value: maginot.amount };
-      chartMarkerList = [...chartMarkerList, maginotMarker];
-    }
-
-    return chartMarkerList;
-  }
-
   async createMaginot(user_idx: number, createMaginotDto: CreateMaginotDto) {
     // const maginots = await this.findMiginotbyUserIdx(user_idx);
     const { ranking, goal, amount } = createMaginotDto;
