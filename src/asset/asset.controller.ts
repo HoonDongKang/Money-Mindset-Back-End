@@ -16,6 +16,7 @@ import { AssetDto } from './dto/user-asset.dto';
 import { ExpenditureService } from './expenditure.service';
 import { CreateExpenditureDto } from './dto/create-expenditure.dto';
 import { UpdateExpenditureDto } from './dto/update-expenditure.dto';
+import { FlowService } from '../flow/flow.service';
 
 @ApiTags('asset')
 @Serialize(AssetDto)
@@ -24,6 +25,7 @@ export class AssetController {
   constructor(
     private assetSevice: AssetService,
     private expenditureService: ExpenditureService,
+    private flowSevice: FlowService,
   ) {}
 
   // Asset
@@ -43,6 +45,7 @@ export class AssetController {
       const fixedExpenditures = await this.expenditureService.findByUserIdx(
         user_idx,
       );
+      // const userInclomeFlow = await this.flowSevice.findByIdx()
       //amount of fixed expenditure
       for (const expenditure of fixedExpenditures) {
         expenditureAmount += expenditure.expenditure_amount;

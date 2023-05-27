@@ -20,15 +20,12 @@ export class FlowService {
   }
 
   flowDataToChartData(flowArr: any) {
-    //수입 데이터 빼기
-    let amountSum = 0;
+    let expenseSum = 0;
     let chartArr = [];
     for (const flow of flowArr) {
       const dayOfMonth = new Date(flow.flow_date).getDate();
-      flow.flow_id <= 4
-        ? (amountSum += flow.amount)
-        : (amountSum -= flow.amount);
-      const chartData = { x: dayOfMonth, y: amountSum };
+      flow.flow_id <= 4 ? expenseSum : (expenseSum += flow.amount);
+      const chartData = { x: dayOfMonth, y: expenseSum };
       chartArr = [...chartArr, chartData];
     }
     return chartArr;
