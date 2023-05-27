@@ -20,10 +20,10 @@ export class FlowService {
   }
 
   flowDataToChartData(flowArr: any) {
+    //수입 데이터 빼기
     let amountSum = 0;
     let chartArr = [];
     for (const flow of flowArr) {
-      amountSum += flow.amount;
       const dayOfMonth = new Date(flow.flow_date).getDate();
       const chartData = { x: dayOfMonth, y: amountSum };
       chartArr = [...chartArr, chartData];
@@ -53,6 +53,9 @@ export class FlowService {
       where: {
         user_idx,
         flow_date: { gte: new Date(start_date), lte: new Date(end_date) },
+      },
+      orderBy: {
+        flow_date: 'asc',
       },
     });
   }

@@ -1,2 +1,3 @@
-2. make unit test
-3. authorization each api
+1. 그래프 수입 값 제외
+2. 현재 자산 + 수입 값 변경
+3. user flow 정렬

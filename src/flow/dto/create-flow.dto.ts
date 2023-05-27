@@ -10,7 +10,7 @@ export class CreateFlowDto {
   @IsNumber()
   amount: number;
 
-  @ApiProperty({ name: 'flow_date', example: '2023.04.26' })
+  @ApiProperty({ name: 'flow_date', example: '2023-04-26' })
   @IsDateString()
   flow_date: Date;
 }
