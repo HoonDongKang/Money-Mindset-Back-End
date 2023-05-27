@@ -27,4 +27,6 @@ export class AssetDto {
 
   @Expose()
   fixedExpenditureAmount?: number;
+  @Expose()
+  userFlowSum?: number;
 }

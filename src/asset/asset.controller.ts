@@ -38,21 +38,22 @@ export class AssetController {
   @ApiOperation({ summary: `Get user's Asset` })
   @Get('/user/:user_idx')
   async getUserAsset(@Param('user_idx', ParseIntPipe) user_idx: number) {
+    let expenditureAmount = 0;
     const userAsset = await this.assetSevice.findAssetByUserIdx(user_idx);
 
     try {
-      let userAssetSum = await this.flowSevice.userFlowSum(user_idx);
+      const userFlowSum = await this.flowSevice.userFlowSum(user_idx);
 
       const fixedExpenditures = await this.expenditureService.findByUserIdx(
         user_idx,
       );
       //amount of fixed expenditure
       for (const expenditure of fixedExpenditures) {
-        userAssetSum += expenditure.expenditure_amount;
+        expenditureAmount += expenditure.expenditure_amount;
       }
-
       return Object.assign(userAsset, {
-        fixedExpenditureAmount: userAssetSum,
+        fixedExpenditureAmount: expenditureAmount,
+        userFlowSum,
       });
     } catch (e) {
       return userAsset;
