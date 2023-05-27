@@ -34,18 +34,30 @@ export class FlowService {
   async findByIdx(idx: number) {
     const flow = await this.prisma.flow.findFirst({
       where: { idx },
-      include: {
-        user: {
-          select: {
-            email: true,
-            nickname: true,
-          },
-        },
-      },
+      // include: {
+      //   user: {
+      //     select: {
+      //       email: true,
+      //       nickname: true,
+      //     },
+      //   },
+      // },
     });
     if (!flow) {
       throw new NotFoundException(`Flow number ${idx} doesn't exist.`);
     }
+  }
+
+  async userFlowSum(idx: number) {
+    let flowSum = 0;
+    const flowArray = await this.prisma.flow.findMany({
+      where: { user_idx: idx },
+    });
+
+    for (const flow of flowArray) {
+      flow.flow_id <= 5 ? (flowSum += flow.amount) : (flowSum -= flow.amount);
+    }
+    return flowSum;
   }
 
   async getUserflows(user_idx: number, start_date: number, end_date: number) {
