@@ -25,6 +25,9 @@ export class FlowService {
     let chartArr = [];
     for (const flow of flowArr) {
       const dayOfMonth = new Date(flow.flow_date).getDate();
+      flow.flow_id <= 4
+        ? (amountSum += flow.amount)
+        : (amountSum -= flow.amount);
       const chartData = { x: dayOfMonth, y: amountSum };
       chartArr = [...chartArr, chartData];
     }
