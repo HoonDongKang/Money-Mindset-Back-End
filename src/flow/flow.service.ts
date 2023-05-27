@@ -22,6 +22,7 @@ export class FlowService {
   flowDataToChartData(flowArr: any) {
     let expenseSum = 0;
     let chartArr = [];
+    //지출일이 같으면 같은 날 합
     for (const flow of flowArr) {
       const dayOfMonth = new Date(flow.flow_date).getDate();
       flow.flow_id <= 4 ? expenseSum : (expenseSum += flow.amount);
