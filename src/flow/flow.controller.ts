@@ -66,6 +66,7 @@ export class FlowController {
       start_date,
       end_date,
     );
+
     return this.FlowService.flowDataToChartData(userFlows);
   }
 

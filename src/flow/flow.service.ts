@@ -25,9 +25,11 @@ export class FlowService {
     //지출일이 같으면 같은 날 합
     for (const flow of flowArr) {
       const dayOfMonth = new Date(flow.flow_date).getDate();
-      flow.flow_id <= 4 ? expenseSum : (expenseSum += flow.amount);
-      const chartData = { x: dayOfMonth, y: expenseSum };
-      chartArr = [...chartArr, chartData];
+      if (flow.flow_id >= 5) {
+        expenseSum += flow.amount;
+        const chartData = { x: dayOfMonth, y: expenseSum };
+        chartArr = [...chartArr, chartData];
+      }
     }
     return chartArr;
   }
@@ -35,14 +37,6 @@ export class FlowService {
   async findByIdx(idx: number) {
     const flow = await this.prisma.flow.findFirst({
       where: { idx },
-      // include: {
-      //   user: {
-      //     select: {
-      //       email: true,
-      //       nickname: true,
-      //     },
-      //   },
-      // },
     });
     if (!flow) {
       throw new NotFoundException(`Flow number ${idx} doesn't exist.`);
