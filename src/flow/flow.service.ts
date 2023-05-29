@@ -19,6 +19,18 @@ export class FlowService {
     return flowArr;
   }
 
+  sumExpenseInSameDay(flowArr: any[]) {
+    let arrLng = flowArr.length;
+    for (let i = 0; i < arrLng; i++) {
+      for (let j = i + 1; j < arrLng; j++) {
+        if (flowArr[i].x === flowArr[j].x) {
+          flowArr.splice(i, 1);
+          arrLng--;
+        }
+      }
+    }
+  }
+
   flowDataToChartData(flowArr: any) {
     let expenseSum = 0;
     let chartArr = [];
@@ -31,6 +43,7 @@ export class FlowService {
         chartArr = [...chartArr, chartData];
       }
     }
+    this.sumExpenseInSameDay(chartArr);
     return chartArr;
   }
 
