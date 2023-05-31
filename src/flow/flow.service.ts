@@ -24,8 +24,9 @@ export class FlowService {
     for (let i = 0; i < arrLng; i++) {
       for (let j = i + 1; j < arrLng; j++) {
         if (flowArr[i].x === flowArr[j].x) {
-          flowArr.splice(i, 1);
-          arrLng--;
+          const dupFlow = flowArr.filter((flow) => flow.x === flowArr[i].x);
+          flowArr.splice(i, dupFlow.length - 1);
+          arrLng -= dupFlow.length - 1;
         }
       }
     }
