@@ -12,33 +12,7 @@ export class ExpenditureService {
     private userService: UserService,
   ) {}
 
-  subExpenditure() {
-    const startDate = 1689087600000; // 5/16
-    const endDate = 1685026800000; // 7/12
-    const expenditureDate = 3;
-    let months = [];
-    const startMonth = new Date(startDate).getMonth() + 1;
-    const endMonth = new Date(endDate).getMonth() + 1;
-
-    if (startMonth < endMonth) {
-      for (let i = startMonth; i < endMonth + 1; i++) {
-        months.push(i);
-      }
-    } else if (startMonth > endMonth) {
-      for (let i = startMonth; i < 13; i++) {
-        months.push(i);
-      }
-      for (let i = 1; i < endMonth + 1; i++) {
-        months.push(i);
-      }
-    } else {
-      months.push[startMonth];
-    }
-    console.log(months);
-  }
-
   findAll() {
-    this.subExpenditure();
     return this.prisma.expenditure.findMany({
       include: {
         user: {
