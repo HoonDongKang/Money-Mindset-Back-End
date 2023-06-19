@@ -52,6 +52,43 @@ export class FlowController {
     return userFlows;
     // return this.FlowService.flowIdtoName(userFlows);
   }
+
+  @Get('user/income/:user_idx')
+  @UseInterceptors(flowNameInterceptor)
+  @Serialize(UserFlowDto)
+  // param : userIdx, Date
+  // 해당 월의 데이터만 출력
+  async getUserIncome(
+    @Param('user_idx', ParseIntPipe) user_idx: number,
+    @Query('start_date', ParseIntPipe) start_date: number,
+    @Query('end_date', ParseIntPipe) end_date: number,
+  ) {
+    const userFlows = await this.FlowService.getUserIncome(
+      user_idx,
+      start_date,
+      end_date,
+    );
+    return userFlows;
+  }
+
+  @Get('user/expense/:user_idx')
+  @UseInterceptors(flowNameInterceptor)
+  @Serialize(UserFlowDto)
+  // param : userIdx, Date
+  // 해당 월의 데이터만 출력
+  async getUserExpense(
+    @Param('user_idx', ParseIntPipe) user_idx: number,
+    @Query('start_date', ParseIntPipe) start_date: number,
+    @Query('end_date', ParseIntPipe) end_date: number,
+  ) {
+    const userFlows = await this.FlowService.getUserExpense(
+      user_idx,
+      start_date,
+      end_date,
+    );
+    return userFlows;
+  }
+
   @Get('chart/:user_idx')
   // param : userIdx, Date
   // 해당 월의 데이터만 출력
@@ -61,7 +98,7 @@ export class FlowController {
     @Query('end_date', ParseIntPipe) end_date: number,
   ) {
     //new Date('yyyy-mm-dd').getTime() => millis
-    const userFlows = await this.FlowService.getUserflows(
+    const userFlows = await this.FlowService.getUserExpense(
       user_idx,
       start_date,
       end_date,

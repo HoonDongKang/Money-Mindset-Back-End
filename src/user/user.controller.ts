@@ -66,10 +66,14 @@ export class UserController {
   }
 
   @ApiOperation({ summary: `Delete user's info` })
-  @Delete('/:idx')
-  @Serialize(UserDto)
-  removeUser(@Param('idx', ParseIntPipe) idx: number) {
-    return this.userService.removeUserById(idx);
+  @Delete(':idx')
+  async removeUser(
+    @Res() res: Response,
+    @Param('idx', ParseIntPipe) idx: number,
+  ) {
+    res.cookie('refresh_token', '', { maxAge: 0 });
+    const user = await this.userService.removeUserById(idx);
+    return res.send(user);
   }
 
   @ApiOperation({

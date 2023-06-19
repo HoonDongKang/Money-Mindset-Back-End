@@ -36,13 +36,19 @@ export class FlowService {
     let expenseSum = 0;
     let chartArr = [];
     //지출일이 같으면 같은 날 합
+    // for (const flow of flowArr) {
+    //   const dayOfMonth = new Date(flow.flow_date).getDate();
+    //   if (flow.flow_id >= 5) {
+    //     expenseSum += flow.amount;
+    //     const chartData = { x: dayOfMonth, y: expenseSum };
+    //     chartArr = [...chartArr, chartData];
+    //   }
+    // }
     for (const flow of flowArr) {
       const dayOfMonth = new Date(flow.flow_date).getDate();
-      if (flow.flow_id >= 5) {
-        expenseSum += flow.amount;
-        const chartData = { x: dayOfMonth, y: expenseSum };
-        chartArr = [...chartArr, chartData];
-      }
+      expenseSum += flow.amount;
+      const chartData = { x: dayOfMonth, y: expenseSum };
+      chartArr = [...chartArr, chartData];
     }
     this.sumExpenseInSameDay(chartArr);
     return chartArr;
@@ -72,6 +78,37 @@ export class FlowService {
   async getUserflows(user_idx: number, start_date: number, end_date: number) {
     return await this.prisma.flow.findMany({
       where: {
+        user_idx,
+        flow_date: { gte: new Date(start_date), lte: new Date(end_date) },
+      },
+      orderBy: {
+        flow_date: 'asc',
+      },
+    });
+  }
+  //수입 라벨
+  async getUserIncome(user_idx: number, start_date: number, end_date: number) {
+    return await this.prisma.flow.findMany({
+      where: {
+        flow_id: {
+          lte: 4,
+        },
+        user_idx,
+        flow_date: { gte: new Date(start_date), lte: new Date(end_date) },
+      },
+      orderBy: {
+        flow_date: 'asc',
+      },
+    });
+  }
+
+  //지출 라벨
+  async getUserExpense(user_idx: number, start_date: number, end_date: number) {
+    return await this.prisma.flow.findMany({
+      where: {
+        flow_id: {
+          gte: 5,
+        },
         user_idx,
         flow_date: { gte: new Date(start_date), lte: new Date(end_date) },
       },

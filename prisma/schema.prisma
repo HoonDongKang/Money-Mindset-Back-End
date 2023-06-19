@@ -26,7 +26,11 @@ model User{
 
 model Maginot{
   idx  Int   @id @default(autoincrement())
+<<<<<<< HEAD
   user User @relation(fields:[user_idx], references:[idx], onDelete: Cascade, onUpdate: Cascade)
+=======
+  user User @relation(fields:[user_idx], references:[idx],onDelete: Cascade,onUpdate: Cascade)
+>>>>>>> b9c41a08df9252025e18d7a1703d89defcb678d4
   user_idx Int
   ranking Int
   goal String
@@ -37,7 +41,11 @@ model Maginot{
 }
 
 model Asset{
+<<<<<<< HEAD
   user User @relation(fields:[user_idx], references:[idx], onDelete: Cascade, onUpdate: Cascade)
+=======
+  user User @relation(fields:[user_idx], references:[idx],onDelete: Cascade,onUpdate: Cascade)
+>>>>>>> b9c41a08df9252025e18d7a1703d89defcb678d4
   user_idx Int @id @unique
   amount Int
   createdAt DateTime @default(now())
@@ -46,7 +54,11 @@ model Asset{
 
 model Expenditure{
   idx  Int   @id @default(autoincrement())
+<<<<<<< HEAD
   user User @relation(fields:[user_idx], references:[idx], onDelete: Cascade, onUpdate: Cascade)
+=======
+  user User @relation(fields:[user_idx], references:[idx],onDelete: Cascade,onUpdate: Cascade)
+>>>>>>> b9c41a08df9252025e18d7a1703d89defcb678d4
   user_idx Int
   fixed_expenditure String
   expenditure_amount Int
@@ -55,7 +67,11 @@ model Expenditure{
 
 model Flow{
   idx  Int   @id @default(autoincrement())
+<<<<<<< HEAD
   user User @relation(fields:[user_idx], references:[idx], onDelete: Cascade, onUpdate: Cascade)
+=======
+  user User @relation(fields:[user_idx], references:[idx],onDelete: Cascade,onUpdate: Cascade)
+>>>>>>> b9c41a08df9252025e18d7a1703d89defcb678d4
   user_idx Int
   flow_id Int
   amount Int
