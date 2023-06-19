@@ -8,11 +8,11 @@ import { UpdateFlowDto } from './dto/update-flow.dto';
 export class FlowService {
   constructor(private prisma: PrismaService) {}
 
-  flowIdtoName(flowArr: any) {
+  flowIdtoName(flowArr: any, flowName: string) {
     for (const category of flowCategory) {
       for (const flow of flowArr) {
         if (category.id === flow.flow_id) {
-          Object.assign(flow, { flowName: category.name });
+          Object.assign(flow, { [`${flowName}`]: category.name });
         }
       }
     }
@@ -32,18 +32,9 @@ export class FlowService {
     }
   }
 
-  flowDataToChartData(flowArr: any) {
+  flowDataToMaginotChart(flowArr: any) {
     let expenseSum = 0;
     let chartArr = [];
-    //지출일이 같으면 같은 날 합
-    // for (const flow of flowArr) {
-    //   const dayOfMonth = new Date(flow.flow_date).getDate();
-    //   if (flow.flow_id >= 5) {
-    //     expenseSum += flow.amount;
-    //     const chartData = { x: dayOfMonth, y: expenseSum };
-    //     chartArr = [...chartArr, chartData];
-    //   }
-    // }
     for (const flow of flowArr) {
       const dayOfMonth = new Date(flow.flow_date).getDate();
       expenseSum += flow.amount;
@@ -51,6 +42,19 @@ export class FlowService {
       chartArr = [...chartArr, chartData];
     }
     this.sumExpenseInSameDay(chartArr);
+    return chartArr;
+  }
+
+  flowDataToStaticChart(flowArr: any) {
+    let chartArr = [];
+    for (const flow of flowArr) {
+      const chartData = {
+        id: flow.flow_id,
+        label: flow.label,
+        value: flow.amount,
+      };
+      chartArr = [...chartArr, chartData];
+    }
     return chartArr;
   }
 
@@ -117,6 +121,7 @@ export class FlowService {
       },
     });
   }
+
   async createFlow(user_idx: number, createFlowDto: CreateFlowDto) {
     //userIdx 검사 필요
     const { amount, flow_date, flow_id } = createFlowDto;

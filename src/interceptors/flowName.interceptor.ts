@@ -13,7 +13,7 @@ export class flowNameInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
       map((data) => {
-        return this.flowService.flowIdtoName(data);
+        return this.flowService.flowIdtoName(data, 'flowName');
       }),
     );
   }

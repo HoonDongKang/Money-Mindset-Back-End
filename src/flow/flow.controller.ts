@@ -25,7 +25,7 @@ import { flowNameInterceptor } from '../interceptors/flowName.interceptor';
 export class FlowController {
   constructor(
     private prisma: PrismaService,
-    private FlowService: FlowService,
+    private flowService: FlowService,
   ) {}
 
   @Get()
@@ -44,13 +44,13 @@ export class FlowController {
     @Query('end_date', ParseIntPipe) end_date: number,
   ) {
     //new Date('yyyy-mm-dd').getTime() => millis
-    const userFlows = await this.FlowService.getUserflows(
+    const userFlows = await this.flowService.getUserflows(
       user_idx,
       start_date,
       end_date,
     );
     return userFlows;
-    // return this.FlowService.flowIdtoName(userFlows);
+    // return this.flowService.flowIdtoName(userFlows);
   }
 
   @Get('user/income/:user_idx')
@@ -63,7 +63,7 @@ export class FlowController {
     @Query('start_date', ParseIntPipe) start_date: number,
     @Query('end_date', ParseIntPipe) end_date: number,
   ) {
-    const userFlows = await this.FlowService.getUserIncome(
+    const userFlows = await this.flowService.getUserIncome(
       user_idx,
       start_date,
       end_date,
@@ -81,12 +81,40 @@ export class FlowController {
     @Query('start_date', ParseIntPipe) start_date: number,
     @Query('end_date', ParseIntPipe) end_date: number,
   ) {
-    const userFlows = await this.FlowService.getUserExpense(
+    const userFlows = await this.flowService.getUserExpense(
       user_idx,
       start_date,
       end_date,
     );
     return userFlows;
+  }
+
+  @Get('static/:user_idx')
+  async getUserFlowsToStaticData(
+    @Param('user_idx', ParseIntPipe) user_idx: number,
+    @Query('start_date', ParseIntPipe) start_date: number,
+    @Query('end_date', ParseIntPipe) end_date: number,
+    @Query('flow_type', ParseIntPipe) flow_type: number,
+  ) {
+    // 0 : income , 1 : expense
+    let userFlow;
+    if (flow_type) {
+      userFlow = await this.flowService.getUserExpense(
+        user_idx,
+        start_date,
+        end_date,
+      );
+      const test = this.flowService.flowIdtoName(userFlow, 'label');
+      return this.flowService.flowDataToStaticChart(test);
+    } else {
+      userFlow = await this.flowService.getUserIncome(
+        user_idx,
+        start_date,
+        end_date,
+      );
+      const test = this.flowService.flowIdtoName(userFlow, 'label');
+      return this.flowService.flowDataToStaticChart(test);
+    }
   }
 
   @Get('chart/:user_idx')
@@ -98,13 +126,13 @@ export class FlowController {
     @Query('end_date', ParseIntPipe) end_date: number,
   ) {
     //new Date('yyyy-mm-dd').getTime() => millis
-    const userFlows = await this.FlowService.getUserExpense(
+    const userFlows = await this.flowService.getUserExpense(
       user_idx,
       start_date,
       end_date,
     );
 
-    return this.FlowService.flowDataToChartData(userFlows);
+    return this.flowService.flowDataToMaginotChart(userFlows);
   }
 
   @Post('user/:user_idx')
@@ -113,7 +141,7 @@ export class FlowController {
     @Param('user_idx', ParseIntPipe) user_idx: number,
     @Body() createFlowDto: CreateFlowDto,
   ) {
-    return this.FlowService.createFlow(user_idx, createFlowDto);
+    return this.flowService.createFlow(user_idx, createFlowDto);
   }
 
   @Patch('/:idx')
@@ -122,12 +150,12 @@ export class FlowController {
     @Param('idx', ParseIntPipe) idx: number,
     @Body() updateFlowDto: UpdateFlowDto,
   ) {
-    return this.FlowService.updateFlow(idx, updateFlowDto);
+    return this.flowService.updateFlow(idx, updateFlowDto);
   }
 
   @Delete('/:idx')
   @Serialize(UserFlowDto)
   deleteUserFlow(@Param('idx', ParseIntPipe) idx: number) {
-    return this.FlowService.deleteFlow(idx);
+    return this.flowService.deleteFlow(idx);
   }
 }
