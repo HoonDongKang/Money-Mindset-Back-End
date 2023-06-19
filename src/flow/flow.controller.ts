@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -19,6 +20,7 @@ import { UpdateFlowDto } from './dto/update-flow.dto';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserFlowDto } from './dto/user-flow.dto';
 import { flowNameInterceptor } from '../interceptors/flowName.interceptor';
+import { UserIdxGuard } from './userIdx.guard';
 
 @ApiTags('flow')
 @Controller('flow')
@@ -88,7 +90,6 @@ export class FlowController {
     );
     return userFlows;
   }
-
   @Get('static/:user_idx')
   async getUserFlowsToStaticData(
     @Param('user_idx', ParseIntPipe) user_idx: number,
