@@ -58,6 +58,15 @@ export class FlowService {
     return chartArr;
   }
 
+  stackSameLabel(lableArr: { id: number; label: string; value: number }[]) {
+    let staticArr = [];
+    for (const label of lableArr) {
+      const index = staticArr.findIndex((tatic) => {
+        tatic.id === label.id;
+      });
+    }
+  }
+
   async findByIdx(idx: number) {
     const flow = await this.prisma.flow.findFirst({
       where: { idx },

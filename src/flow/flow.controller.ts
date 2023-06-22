@@ -20,7 +20,6 @@ import { UpdateFlowDto } from './dto/update-flow.dto';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserFlowDto } from './dto/user-flow.dto';
 import { flowNameInterceptor } from '../interceptors/flowName.interceptor';
-import { UserIdxGuard } from './userIdx.guard';
 
 @ApiTags('flow')
 @Controller('flow')
