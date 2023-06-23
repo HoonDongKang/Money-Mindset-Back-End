@@ -104,16 +104,16 @@ export class FlowController {
         start_date,
         end_date,
       );
-      const test = this.flowService.flowIdtoName(userFlow, 'label');
-      return this.flowService.flowDataToStaticChart(test);
+      const flowData = this.flowService.flowIdtoName(userFlow, 'label');
+      return this.flowService.flowDataToFlowChart(flowData);
     } else {
       userFlow = await this.flowService.getUserIncome(
         user_idx,
         start_date,
         end_date,
       );
-      const test = this.flowService.flowIdtoName(userFlow, 'label');
-      return this.flowService.flowDataToStaticChart(test);
+      const flowData = this.flowService.flowIdtoName(userFlow, 'label');
+      return this.flowService.flowDataToFlowChart(flowData);
     }
   }
 

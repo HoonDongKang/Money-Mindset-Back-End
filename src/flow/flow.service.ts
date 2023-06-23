@@ -45,7 +45,7 @@ export class FlowService {
     return chartArr;
   }
 
-  flowDataToStaticChart(flowArr: any) {
+  flowDataToFlowChart(flowArr: any) {
     let chartArr = [];
     for (const flow of flowArr) {
       const chartData = {
@@ -55,16 +55,22 @@ export class FlowService {
       };
       chartArr = [...chartArr, chartData];
     }
-    return chartArr;
+    console.log(chartArr);
+    return this.stackSameLabel(chartArr);
   }
 
-  stackSameLabel(lableArr: { id: number; label: string; value: number }[]) {
-    let staticArr = [];
-    for (const label of lableArr) {
-      const index = staticArr.findIndex((tatic) => {
-        tatic.id === label.id;
-      });
+  stackSameLabel(labelArr: { id: number; label: string; value: number }[]) {
+    let stack = [];
+    for (const label of labelArr) {
+      const index = stack.findIndex((stack) => stack.id === label.id);
+      console.log(index);
+      if (index === -1) {
+        stack.push(label);
+      } else {
+        stack[index].value += label.value;
+      }
     }
+    return stack;
   }
 
   async findByIdx(idx: number) {
