@@ -55,15 +55,13 @@ export class FlowService {
       };
       chartArr = [...chartArr, chartData];
     }
-    console.log(chartArr);
     return this.stackSameLabel(chartArr);
   }
 
   stackSameLabel(labelArr: { id: number; label: string; value: number }[]) {
-    let stack = [];
+    const stack = [];
     for (const label of labelArr) {
       const index = stack.findIndex((stack) => stack.id === label.id);
-      console.log(index);
       if (index === -1) {
         stack.push(label);
       } else {
