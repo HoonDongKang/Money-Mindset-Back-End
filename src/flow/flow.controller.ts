@@ -20,6 +20,7 @@ import { UpdateFlowDto } from './dto/update-flow.dto';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserFlowDto } from './dto/user-flow.dto';
 import { flowNameInterceptor } from '../interceptors/flowName.interceptor';
+import { FlowDetailData } from './dto/flow-detail.dto';
 
 @ApiTags('flow')
 @Controller('flow')
@@ -157,5 +158,10 @@ export class FlowController {
   @Serialize(UserFlowDto)
   deleteUserFlow(@Param('idx', ParseIntPipe) idx: number) {
     return this.flowService.deleteFlow(idx);
+  }
+
+  @Post('/detail')
+  createFlowDetail(@Body() data: FlowDetailData) {
+    return this.flowService.createFlowDetail(data);
   }
 }

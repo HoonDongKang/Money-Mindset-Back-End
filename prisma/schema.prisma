@@ -62,4 +62,16 @@ model Flow{
   flow_date DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  flowDetail FlowDetail?
+}
+
+model FlowDetail{
+  idx  Int   @id @default(autoincrement())
+  flow Flow @relation(fields:[flow_idx], references:[idx], onDelete: Cascade, onUpdate: Cascade)
+  flow_idx Int @unique
+  detail String
+  lat Float
+  lng Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

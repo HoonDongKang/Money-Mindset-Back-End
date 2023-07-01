@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { flowCategory } from './flowCategory';
 import { CreateFlowDto } from './dto/create-flow.dto';
 import { UpdateFlowDto } from './dto/update-flow.dto';
+import { FlowDetailData } from './dto/flow-detail.dto';
 
 @Injectable()
 export class FlowService {
@@ -139,6 +140,7 @@ export class FlowService {
     //userIdx 검사 필요
     const { amount, flow_date, flow_id } = createFlowDto;
     const date = new Date(flow_date);
+    console.log(date);
     return await this.prisma.flow.create({
       data: {
         user_idx,
@@ -167,7 +169,16 @@ export class FlowService {
     });
   }
 
-  getAllFlows() {
-    // return this.prisma.flow.find;
+  createFlowDetail(data: FlowDetailData) {
+    const { detail, lng, lat } = data;
+
+    return this.prisma.flowDetail.create({
+      data: {
+        flow_idx: 27,
+        detail,
+        lat,
+        lng,
+      },
+    });
   }
 }
