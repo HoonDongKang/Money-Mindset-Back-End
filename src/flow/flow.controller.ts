@@ -20,7 +20,8 @@ import { UpdateFlowDto } from './dto/update-flow.dto';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserFlowDto } from './dto/user-flow.dto';
 import { flowNameInterceptor } from '../interceptors/flowName.interceptor';
-import { FlowDetailData } from './dto/flow-detail.dto';
+import { FlowDetailData } from './dto/create-flowdetail.dto';
+import { UserFlowDetail } from './dto/user-flowdetail.dto';
 
 @ApiTags('flow')
 @Controller('flow')
@@ -160,8 +161,32 @@ export class FlowController {
     return this.flowService.deleteFlow(idx);
   }
 
-  @Post('/detail')
-  createFlowDetail(@Body() data: FlowDetailData) {
-    return this.flowService.createFlowDetail(data);
+  @Get('/detial/:flow_idx')
+  @Serialize(UserFlowDetail)
+  getFlowDetail(@Param('flow_idx', ParseIntPipe) flow_idx: number) {
+    return this.flowService.getFlowDetail(flow_idx);
+  }
+
+  @Post('/detail/:flow_idx')
+  // @Serialize(UserFlowDetail)
+  createFlowDetail(
+    @Param('flow_idx', ParseIntPipe) flow_idx: number,
+    @Body() flowDetail: FlowDetailData,
+  ) {
+    return this.flowService.createFlowDetail(flow_idx, flowDetail);
+  }
+
+  @Patch('/detail/:flow_idx')
+  // @Serialize(UserFlowDetail)
+  updateFlowDetail(
+    @Param('flow_idx', ParseIntPipe) flow_idx: number,
+    @Body() flowDetail: FlowDetailData,
+  ) {
+    return this.flowService.updateFlowDetail(flow_idx, flowDetail);
+  }
+  @Delete('/detail/:flow_idx')
+  // @Serialize(UserFlowDetail)
+  deleteFlowDetail(@Param('flow_idx', ParseIntPipe) flow_idx: number) {
+    return this.flowService.deleteFlowDetail(flow_idx);
   }
 }

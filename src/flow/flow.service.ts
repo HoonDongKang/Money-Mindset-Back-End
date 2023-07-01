@@ -3,7 +3,8 @@ import { PrismaService } from '../prisma/prisma.service';
 import { flowCategory } from './flowCategory';
 import { CreateFlowDto } from './dto/create-flow.dto';
 import { UpdateFlowDto } from './dto/update-flow.dto';
-import { FlowDetailData } from './dto/flow-detail.dto';
+import { FlowDetailData } from './dto/create-flowdetail.dto';
+import { UpdateFlowDetailDto } from './dto/update-flowdetail.dto';
 
 @Injectable()
 export class FlowService {
@@ -169,16 +170,40 @@ export class FlowService {
     });
   }
 
-  createFlowDetail(data: FlowDetailData) {
-    const { detail, lng, lat } = data;
-
+  createFlowDetail(flow_idx: number, flowDetail: FlowDetailData) {
+    const { detail, lng, lat } = flowDetail;
     return this.prisma.flowDetail.create({
       data: {
-        flow_idx: 27,
+        flow_idx,
         detail,
         lat,
         lng,
       },
+    });
+  }
+  async getFlowDetail(flow_idx: number) {
+    const flowDetail = await this.prisma.flowDetail.findUnique({
+      where: {
+        flow_idx,
+      },
+    });
+    if (!flowDetail)
+      throw new NotFoundException(`Flow number ${flow_idx} doesn't exist.`);
+    return flowDetail;
+  }
+
+  async updateFlowDetail(flow_idx: number, flowDetail: UpdateFlowDetailDto) {
+    await this.getFlowDetail(flow_idx);
+    return await this.prisma.flowDetail.update({
+      where: { flow_idx },
+      data: flowDetail,
+    });
+  }
+
+  async deleteFlowDetail(flow_idx: number) {
+    await this.getFlowDetail(flow_idx);
+    return await this.prisma.flowDetail.delete({
+      where: { flow_idx },
     });
   }
 }
