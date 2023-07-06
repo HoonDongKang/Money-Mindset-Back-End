@@ -161,7 +161,7 @@ export class FlowController {
     return this.flowService.deleteFlow(idx);
   }
 
-  @Get('/detial/:flow_idx')
+  @Get('/detail/:flow_idx')
   @Serialize(UserFlowDetail)
   getFlowDetail(@Param('flow_idx', ParseIntPipe) flow_idx: number) {
     return this.flowService.getFlowDetail(flow_idx);
