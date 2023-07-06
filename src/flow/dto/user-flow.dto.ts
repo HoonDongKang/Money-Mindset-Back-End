@@ -18,4 +18,9 @@ export class UserFlowDto {
 
   @Expose()
   flowName: Date;
+
+  @Expose()
+  flowDetail: {
+    flow_idx: number;
+  };
 }

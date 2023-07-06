@@ -103,6 +103,13 @@ export class FlowService {
       orderBy: {
         flow_date: 'asc',
       },
+      include: {
+        flowDetail: {
+          select: {
+            flow_idx: true,
+          },
+        },
+      },
     });
   }
   //수입 라벨
