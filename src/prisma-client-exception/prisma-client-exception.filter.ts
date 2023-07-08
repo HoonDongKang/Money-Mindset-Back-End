@@ -5,12 +5,7 @@ import { Response } from 'express';
 
 @Catch(Prisma.PrismaClientKnownRequestError, Prisma.PrismaClientValidationError)
 export class PrismaClientExceptionFilter extends BaseExceptionFilter {
-  catch(
-    exception:
-      | Prisma.PrismaClientKnownRequestError
-      | Prisma.PrismaClientValidationError,
-    host: ArgumentsHost,
-  ) {
+  catch(exception: Prisma.PrismaClientKnownRequestError, host: ArgumentsHost) {
     console.error(`message:${exception.message}`);
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
@@ -42,6 +37,7 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
       }
       //Prisma.PrismaClientValidationError - 400처리
       case undefined: {
+        console.log('undefined');
         const status = HttpStatus.BAD_REQUEST;
         response.status(status).json({
           statusCode: status,

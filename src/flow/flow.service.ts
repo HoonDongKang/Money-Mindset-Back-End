@@ -107,6 +107,9 @@ export class FlowService {
         flowDetail: {
           select: {
             flow_idx: true,
+            detail: true,
+            lat: true,
+            lng: true,
           },
         },
       },
