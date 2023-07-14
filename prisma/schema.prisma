@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
@@ -35,6 +36,8 @@ model Maginot{
   line Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([user_idx])
 }
 
 model Asset{
@@ -43,6 +46,8 @@ model Asset{
   amount Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([user_idx])
 }
 
 model Expenditure{
@@ -52,6 +57,8 @@ model Expenditure{
   fixed_expenditure String
   expenditure_amount Int
   expenditure_date String
+
+  @@index([user_idx])
 }
 
 model Flow{
@@ -64,6 +71,8 @@ model Flow{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   flowDetail FlowDetail?
+
+  @@index([user_idx])
 }
 
 model FlowDetail{
@@ -75,4 +84,6 @@ model FlowDetail{
   lng Float?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([flow_idx])
 }
