@@ -94,6 +94,18 @@ export class FlowService {
     return flowSum;
   }
 
+  async getFlowsByFlowIdx(flow_idx: number) {
+    const flow = await this.prisma.flow.findFirst({
+      where: {
+        idx: flow_idx,
+      },
+    });
+    if (!flow) {
+      throw new NotFoundException(`Flow number ${flow_idx} doesn't exist.`);
+    }
+    return flow;
+  }
+
   async getUserflows(user_idx: number, start_date: number, end_date: number) {
     return await this.prisma.flow.findMany({
       where: {
@@ -180,7 +192,8 @@ export class FlowService {
     });
   }
 
-  createFlowDetail(flow_idx: number, flowDetail: FlowDetailData) {
+  async createFlowDetail(flow_idx: number, flowDetail: FlowDetailData) {
+    await this.getFlowsByFlowIdx(flow_idx);
     const { detail, lng, lat } = flowDetail;
     return this.prisma.flowDetail.create({
       data: {
@@ -198,7 +211,9 @@ export class FlowService {
       },
     });
     if (!flowDetail)
-      throw new NotFoundException(`Flow number ${flow_idx} doesn't exist.`);
+      throw new NotFoundException(
+        `Flow number ${flow_idx} doesn't have a flow detail.`,
+      );
     return flowDetail;
   }
 
