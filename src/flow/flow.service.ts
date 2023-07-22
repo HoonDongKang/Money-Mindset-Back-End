@@ -89,7 +89,7 @@ export class FlowService {
     });
 
     for (const flow of flowArray) {
-      flow.flow_id <= 5 ? (flowSum += flow.amount) : (flowSum -= flow.amount);
+      flow.flow_id <= 4 ? (flowSum += flow.amount) : (flowSum -= flow.amount);
     }
     return flowSum;
   }
