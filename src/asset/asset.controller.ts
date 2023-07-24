@@ -42,7 +42,8 @@ export class AssetController {
     const userAsset = await this.assetSevice.findAssetByUserIdx(user_idx);
 
     try {
-      const userFlowSum = await this.flowSevice.userFlowSum(user_idx);
+      const { income: userIncome, expense: userExpense } =
+        await this.flowSevice.userFlowByType(user_idx);
 
       const fixedExpenditures = await this.expenditureService.findByUserIdx(
         user_idx,
@@ -53,7 +54,8 @@ export class AssetController {
       }
       return Object.assign(userAsset, {
         fixedExpenditureAmount: expenditureAmount,
-        userFlowSum,
+        userIncome,
+        userExpense,
       });
     } catch (e) {
       return userAsset;

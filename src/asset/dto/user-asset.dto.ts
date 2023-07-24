@@ -27,6 +27,10 @@ export class AssetDto {
 
   @Expose()
   fixedExpenditureAmount?: number;
+
   @Expose()
-  userFlowSum?: number;
+  userIncome: number;
+
+  @Expose()
+  userExpense: number;
 }

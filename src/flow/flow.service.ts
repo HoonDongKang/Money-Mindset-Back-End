@@ -82,16 +82,17 @@ export class FlowService {
     }
   }
 
-  async userFlowSum(idx: number) {
-    let flowSum = 0;
+  async userFlowByType(idx: number) {
+    let income = 0;
+    let expense = 0;
     const flowArray = await this.prisma.flow.findMany({
       where: { user_idx: idx },
     });
 
     for (const flow of flowArray) {
-      flow.flow_id <= 4 ? (flowSum += flow.amount) : (flowSum -= flow.amount);
+      flow.flow_id <= 4 ? (income += flow.amount) : (expense += flow.amount);
     }
-    return flowSum;
+    return { income, expense };
   }
 
   async getFlowsByFlowIdx(flow_idx: number) {
