@@ -1,89 +1,86 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
-model User{
-  idx  Int   @id @default(autoincrement()) 
-  email String  @unique
-  password  String?
-  nickname String @unique
+model User {
+  idx          Int           @id @default(autoincrement())
+  email        String        @unique
+  password     String?
+  nickname     String        @unique
   refreshToken String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  maginot Maginot[]
-  expenditure Expenditure[]
-  asset Asset?
-  flow Flow[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  maginot      Maginot[]
+  expenditure  Expenditure[]
+  asset        Asset?
+  flow         Flow[]
 }
 
-model Maginot{
-  idx  Int   @id @default(autoincrement())
-  user User @relation(fields:[user_idx], references:[idx], onDelete: Cascade, onUpdate: Cascade)
-  user_idx Int
-  ranking Int
-  goal String
-  amount Int
-  line Int
+model Maginot {
+  idx       Int      @id @default(autoincrement())
+  user_idx  Int
+  ranking   Int
+  goal      String
+  amount    Int
+  line      Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [user_idx], references: [idx], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([user_idx])
 }
 
-model Asset{
-  user User @relation(fields:[user_idx], references:[idx], onDelete: Cascade, onUpdate: Cascade)
-  user_idx Int @id @unique
-  amount Int
+model Asset {
+  user_idx  Int      @id @unique
+  amount    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [user_idx], references: [idx], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([user_idx])
 }
 
-model Expenditure{
-  idx  Int   @id @default(autoincrement())
-  user User @relation(fields:[user_idx], references:[idx], onDelete: Cascade, onUpdate: Cascade)
-  user_idx Int
-  fixed_expenditure String
+model Expenditure {
+  idx                Int    @id @default(autoincrement())
+  user_idx           Int
+  fixed_expenditure  String
   expenditure_amount Int
-  expenditure_date String
+  expenditure_date   String
+  user               User   @relation(fields: [user_idx], references: [idx], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([user_idx])
 }
 
-model Flow{
-  idx  Int   @id @default(autoincrement())
-  user User @relation(fields:[user_idx], references:[idx], onDelete: Cascade, onUpdate: Cascade)
-  user_idx Int
-  flow_id Int
-  amount Int
-  flow_date DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Flow {
+  idx        Int         @id @default(autoincrement())
+  user_idx   Int
+  flow_id    Int
+  amount     Int
+  flow_date  DateTime
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  user       User        @relation(fields: [user_idx], references: [idx], onDelete: Cascade, onUpdate: Cascade)
   flowDetail FlowDetail?
 
   @@index([user_idx])
 }
 
-model FlowDetail{
-  idx  Int   @id @default(autoincrement())
-  flow Flow @relation(fields:[flow_idx], references:[idx], onDelete: Cascade, onUpdate: Cascade)
-  flow_idx Int @unique
-  detail String?
-  lat Float?
-  lng Float?
+model FlowDetail {
+  idx       Int      @id @default(autoincrement())
+  flow_idx  Int      @unique
+  detail    String?
+  lat       Float?
+  lng       Float?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  flow      Flow     @relation(fields: [flow_idx], references: [idx], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([flow_idx])
 }

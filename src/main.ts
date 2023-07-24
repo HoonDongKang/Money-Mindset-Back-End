@@ -27,6 +27,6 @@ async function bootstrap() {
   app.useGlobalGuards(new UserIdxGuard());
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3714);
+  await app.listen(8080);
 }
 bootstrap();
